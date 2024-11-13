@@ -104,6 +104,7 @@ func (service *AgendaServiceImpl)FindByIdAgendaService(ctx context.Context, id i
 	}
 }
 
+// update repository di agenda
 func (service *AgendaServiceImpl)UpdateAgendaService(ctx context.Context, agenda *web.AgendaCreateOrUpdate, id int64) *web.AgendaCreateOrUpdate {
 	configuration.Validate(agenda)
 
