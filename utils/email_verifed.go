@@ -6,6 +6,8 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
+// pengen pake email ini
+
 
 func SendVerificationEmail(email string, token string) error {
 	mailer := gomail.NewMessage()
