@@ -6,6 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 )
 
 
@@ -13,9 +14,7 @@ import (
 func TestMain(m *testing.M) {
 	// Pastikan path ke .env relatif terhadap root proyek
 	err := godotenv.Load("../.env")
-	if err != nil {
-		panic("Error loading .env file for testing")
-	}
+	exception.PanicLogging(err)
 	os.Exit(m.Run())
 }
 
