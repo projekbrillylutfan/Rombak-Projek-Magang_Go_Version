@@ -1,24 +1,28 @@
-package impl
+package impl_controller
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
 )
 
-type UserControllerImpl struct {
+type UserController struct {
 	UserService service.UserService
 }
 
-func NewUserController(userService *service.UserService) controller.UserController {
-	return &UserControllerImpl{
+func NewUserController(userService *service.UserService) *UserController {
+	return &UserController{
 		UserService: *userService,
 	}
 }
 
-func (controller *UserControllerImpl) CreateUserController(c *fiber.Ctx) error {
+func (controller *UserController) Route (app *fiber.App) {
+	userGroup := app.Group("/api/user")
+	userGroup.Post("/", controller.CreateUserController)
+}
+
+func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
 	var request *web.UserCreate
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
