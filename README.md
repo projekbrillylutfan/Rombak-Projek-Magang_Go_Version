@@ -31,6 +31,9 @@
    - username
    - password
    - role
+   - created at
+   - update at 
+   - delete at
 
 5. Jenis Acara
    - ID Jenis Acara (Primary Key)
