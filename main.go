@@ -14,11 +14,13 @@ func main() {
     dbUser := config.Get("DB_USER")
     dbPassword := config.Get("DB_PASSWORD")
     serverPort := config.Get("SERVER_PORT")
+    secretKey := config.Get("SECRET_KEY")
 
     fmt.Println("DB_HOST:", dbHost)
     fmt.Println("DB_USER:", dbUser)
     fmt.Println("DB_PASSWORD:", dbPassword)
     fmt.Println("SERVER_PORT:", serverPort)
+    fmt.Println("SECRET_KEY:", secretKey)
 
     // Contoh penggunaan jika variabel tidak ditemukan
 }
