@@ -7,13 +7,13 @@ import (
 )
 
 func main() {
-	viper := configuration.GetInstance()
+    config := configuration.New()
 
     // Mengakses konfigurasi menggunakan Viper singleton
-    dbHost := viper.GetString("DB_HOST")
-    dbUser := viper.GetString("DB_USER")
-    dbPassword := viper.GetString("DB_PASSWORD")
-    serverPort := viper.GetInt("SERVER_PORT")
+    dbHost := config.Get("DB_HOST")
+    dbUser := config.Get("DB_USER")
+    dbPassword := config.Get("DB_PASSWORD")
+    serverPort := config.Get("SERVER_PORT")
 
     fmt.Println("DB_HOST:", dbHost)
     fmt.Println("DB_USER:", dbUser)
@@ -21,7 +21,4 @@ func main() {
     fmt.Println("SERVER_PORT:", serverPort)
 
     // Contoh penggunaan jika variabel tidak ditemukan
-    if serverPort == 0 {
-        fmt.Println("SERVER_PORT belum diatur di file .env")
-    }
 }

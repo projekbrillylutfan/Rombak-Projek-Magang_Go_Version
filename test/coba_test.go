@@ -4,21 +4,17 @@ import (
 	"testing"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
-	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestViper(t *testing.T) {
-	var config *viper.Viper = viper.New()
-	assert.NotNil(t, config)
-}
+
 
 func TestENV(t *testing.T) {
-	config := configuration.GetInstance()
+	config := configuration.New("..env")
 
-	assert.Equal(t, "belajar-golang-viper", config.GetString("APP_NAME"))
-	assert.Equal(t, "Eko Kurniawan Khannedy", config.GetString("APP_AUTHOR"))
-	assert.Equal(t, "localhost", config.GetString("DATABASE_HOST"))
-	assert.Equal(t, 3306, config.GetInt("DATABASE_PORT"))
-	assert.Equal(t, true, config.GetBool("DATABASE_SHOW_SQL"))
+	assert.Equal(t, "localhost", config.Get("DB_HOST"))
+	assert.Equal(t, "admin", config.Get("DB_USER"))
+	assert.Equal(t, "localhost", config.Get("DB_HOST"))
+	assert.Equal(t, "secret", config.Get("DB_PASSWORD"))
+	assert.Equal(t, 8080, config.Get("SERVER_PORT"))
 }
