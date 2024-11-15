@@ -49,3 +49,12 @@ RELASI:
 2. Setiap agenda berlangsung di satu lokasi, tetapi satu lokasi dapat digunakan untuk banyak agenda.
 3. Setiap agenda memiliki satu jenis acara, tetapi satu jenis acara dapat digunakan untuk banyak agenda.
 4. Setiap agenda memiliki detail waktu yang spesifik.
+
+## Feature
+
+### User Fitur 
+1. Auth
+2. Register
+3. verif by email
+4. management user
+5. forget pass 
