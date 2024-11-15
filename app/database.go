@@ -63,3 +63,7 @@ func NewDatabase(config configuration.Config) *gorm.DB {
 // migrate db
 // migrate -database "postgres://postgres:admin@localhost:5432/rombak_projek_magang_go_version?sslmode=disable" -path db/migrations up
 // migrate -database "postgres://postgres:admin@localhost:5432/rombak_projek_magang_go_version?sslmode=disable" -path db/migrations down
+// migrate -database "postgres://postgres:admin@localhost:5432/rombak_projek_magang_go_version?sslmode=disable" -path db/migrations version
+// migrate -database "postgres://postgres:admin@localhost:5432/rombak_projek_magang_go_version?sslmode=disable" -path db/migrations force 20241115032443
+
+
