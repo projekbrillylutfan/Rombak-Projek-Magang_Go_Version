@@ -3,6 +3,7 @@ package impl_repo
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
@@ -37,4 +38,11 @@ func (repo *UserRepositoryImpl)FindAllUserRepo(ctx context.Context) []*domain.Us
 	var users []*domain.User
 	repo.WithContext(ctx).Find(&users)
 	return users
+}
+
+func (repo *UserRepositoryImpl) UpdateUserRepo(ctx context.Context, user *domain.User) *domain.User {
+	err := repo.DB.WithContext(ctx).Where("id_user = ?", user.ID).Updates(&user).Error
+	exception.PanicLogging(err)
+	fmt.Println("isi payload di repo update ", user)
+	return user
 }

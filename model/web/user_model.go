@@ -1,6 +1,6 @@
 package web
 
-type UserCreate struct {
+type UserCreateOrUpdate struct {
 	Nama     string `json:"nama" validate:"required"`
 	Jabatan  string `json:"jabatan" validate:"required"`
 	Username string `json:"username" validate:"required"`

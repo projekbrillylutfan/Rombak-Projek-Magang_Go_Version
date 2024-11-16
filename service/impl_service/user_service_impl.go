@@ -2,6 +2,7 @@ package impl_service
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
@@ -34,7 +35,7 @@ func ConversionError (id string) int64 {
 	return idInt64
 }
 
-func (service *UserServiceImpl) CreateUserService(ctx context.Context, user *web.UserCreate) *web.UserCreate {
+func (service *UserServiceImpl) CreateUserService(ctx context.Context, user *web.UserCreateOrUpdate) *web.UserCreateOrUpdate {
 	configuration.Validate(user)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	exception.PanicLogging(err)
@@ -82,4 +83,37 @@ func (service *UserServiceImpl)FindAllUserService(ctx context.Context) (response
 	}
 
 	return responses
+}
+
+func (service *UserServiceImpl)UpdateUserService(ctx context.Context, user *web.UserCreateOrUpdate, id int64) *web.UserCreateOrUpdate {
+	configuration.Validate(user)
+
+	_, err := service.FindByIdUserRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	exception.PanicLogging(err)
+
+	fmt.Println("isi payload di service update 1 : ", user)
+	users := domain.User{
+		ID: id,
+		Nama: user.Nama,
+		Jabatan: user.Jabatan,
+		Username: user.Username,
+		Password: string(hashedPassword),
+	}
+
+	fmt.Println("isi payload di service update 2 : ", users)
+	result:=service.UpdateUserRepo(ctx, &users)
+	
+	return &web.UserCreateOrUpdate{
+		Nama: result.Nama,
+		Jabatan: result.Jabatan,
+		Username: result.Username,
+		Password: result.Password,
+	}
 }
