@@ -64,3 +64,22 @@ func (service *UserServiceImpl) FindByIdUserService(ctx context.Context, id int6
 		Username: users.Username,
 	}
 }
+
+func (service *UserServiceImpl)FindAllUserService(ctx context.Context) (responses []*web.UserModel) {
+	users := service.UserRepository.FindAllUserRepo(ctx)
+
+	for _,user:= range users {
+		responses = append(responses, &web.UserModel{
+			ID: user.ID,
+			Nama: user.Nama,
+			Jabatan: user.Jabatan,
+			Username: user.Username,
+		})
+	}
+
+	if len(responses) == 0 {
+		return nil
+	}
+
+	return responses
+}

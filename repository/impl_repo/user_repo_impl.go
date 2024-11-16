@@ -32,3 +32,9 @@ func (repo *UserRepositoryImpl) FindByIdUserRepo(ctx context.Context, id int64) 
 	}
 	return user, nil
 }
+
+func (repo *UserRepositoryImpl)FindAllUserRepo(ctx context.Context) []*domain.User {
+	var users []*domain.User
+	repo.WithContext(ctx).Find(&users)
+	return users
+}

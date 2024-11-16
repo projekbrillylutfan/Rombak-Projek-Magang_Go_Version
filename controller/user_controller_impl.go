@@ -22,6 +22,7 @@ func (controller *UserController) Route (app *fiber.App) {
 	userGroup := app.Group("/api/user")
 	userGroup.Post("/", controller.CreateUserController)
 	userGroup.Get("/:id", controller.FindByIdUserController)
+	userGroup.Get("/", controller.FindAllUserController)
 }
 
 func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
@@ -47,6 +48,15 @@ func (controller *UserController) FindByIdUserController(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
 		Code: 200,
 		Message: "success get user",
+		Data: result,
+	})
+}
+
+func (controller *UserController)FindAllUserController(c *fiber.Ctx) error {
+	result := controller.UserService.FindAllUserService(c.Context())
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success get all user",
 		Data: result,
 	})
 }
