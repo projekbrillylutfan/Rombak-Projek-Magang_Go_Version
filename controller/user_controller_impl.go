@@ -1,12 +1,11 @@
 package impl_controller
 
 import (
-	"strconv"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service/impl_service"
 )
 
 type UserController struct {
@@ -41,12 +40,7 @@ func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
 func (controller *UserController) FindByIdUserController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	idInt64, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		panic(exception.ConversionError{
-			Message: err.Error(),
-		})
-	}
+	idInt64 := impl_service.ConversionError(id)
 
 	result := controller.UserService.FindByIdUserService(c.Context(), idInt64)
 

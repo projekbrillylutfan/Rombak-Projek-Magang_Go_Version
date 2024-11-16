@@ -8,8 +8,8 @@ type UserCreate struct {
 }
 
 type UserModel struct {
-	ID        int64  `json:"id"`
-	Nama      string `json:"nama"`
-	Jabatan   string `json:"jabatan"`
-	Username  string `json:"username"`
+	ID       int64  `json:"id" validate:"required"`
+	Nama     string `json:"nama" validate:"required"`
+	Jabatan  string `json:"jabatan" validate:"required"`
+	Username string `json:"username" validate:"required"`
 }

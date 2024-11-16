@@ -2,6 +2,7 @@ package impl_service
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
@@ -20,6 +21,17 @@ func NewUserServiceImpl(userRepository *repository.UserRepository) service.UserS
 
 type UserServiceImpl struct {
 	repository.UserRepository
+}
+
+func ConversionError (id string) int64 {
+	idInt64, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		panic(exception.ConversionError{
+			Message: err.Error(),
+		})
+	}
+
+	return idInt64
 }
 
 func (service *UserServiceImpl) CreateUserService(ctx context.Context, user *web.UserCreate) *web.UserCreate {
