@@ -8,4 +8,5 @@ import (
 
 type UserService interface {
 	CreateUserService(ctx context.Context, user *web.UserCreate) *web.UserCreate
+	FindByIdUserService(ctx context.Context, id int64) *web.UserModel
 }

@@ -1,6 +1,8 @@
 package impl_controller
 
 import (
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
@@ -20,6 +22,7 @@ func NewUserController(userService *service.UserService) *UserController {
 func (controller *UserController) Route (app *fiber.App) {
 	userGroup := app.Group("/api/user")
 	userGroup.Post("/", controller.CreateUserController)
+	userGroup.Get("/:id", controller.FindByIdUserController)
 }
 
 func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
@@ -32,5 +35,24 @@ func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
 		Code: 200,
 		Message: "success create user",
 		Data: request,
+	})
+}
+
+func (controller *UserController) FindByIdUserController(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	idInt64, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		panic(exception.ConversionError{
+			Message: err.Error(),
+		})
+	}
+
+	result := controller.UserService.FindByIdUserService(c.Context(), idInt64)
+
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success get user",
+		Data: result,
 	})
 }

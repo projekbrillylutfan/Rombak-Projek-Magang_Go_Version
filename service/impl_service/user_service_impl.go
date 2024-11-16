@@ -37,3 +37,18 @@ func (service *UserServiceImpl) CreateUserService(ctx context.Context, user *web
 	user.Password = ""
 	return user
 }
+
+func (service *UserServiceImpl) FindByIdUserService(ctx context.Context, id int64) *web.UserModel {
+	users, err := service.UserRepository.FindByIdUserRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	return &web.UserModel{
+		ID: users.ID,
+		Nama: users.Nama,
+		Jabatan: users.Jabatan,
+		Username: users.Username,
+	}
+}

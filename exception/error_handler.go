@@ -31,6 +31,15 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 		})
 	}
 
+	_, conversionError := err.(ConversionError)
+	if conversionError {
+		return ctx.Status(fiber.StatusBadRequest).JSON(web.GeneralResponse{
+			Code:    400,
+			Message: "Bad Request",
+			Data:    err.Error(),
+		})
+	}
+
 	_, unauthorizedError := err.(UnauthorizedError)
 	if unauthorizedError {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(web.GeneralResponse{
