@@ -46,3 +46,8 @@ func (repo *UserRepositoryImpl) UpdateUserRepo(ctx context.Context, user *domain
 	fmt.Println("isi payload di repo update ", user)
 	return user
 }
+
+func (repo *UserRepositoryImpl) DeleteUserRepo(ctx context.Context, user *domain.User) {
+	err := repo.DB.WithContext(ctx).Delete(&user).Error
+	exception.PanicLogging(err)
+}

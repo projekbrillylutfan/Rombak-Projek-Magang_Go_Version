@@ -26,6 +26,7 @@ func (controller *UserController) Route (app *fiber.App) {
 	userGroup.Get("/:id", controller.FindByIdUserController)
 	userGroup.Get("/", controller.FindAllUserController)
 	userGroup.Put("/:id", controller.UpdateUserController)
+	userGroup.Delete("/:id", controller.DeleteUserController)
 }
 
 func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
@@ -78,5 +79,19 @@ func (controller *UserController) UpdateUserController(c *fiber.Ctx) error {
 		Code: 200,
 		Message: "success update user",
 		Data: request,
+	})
+}
+
+func (controller *UserController) DeleteUserController(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	idInt64 := impl_service.ConversionError(id)
+
+	controller.UserService.DeleteUserService(c.Context(), idInt64)
+
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success delete user",
+		Data: nil,
 	})
 }

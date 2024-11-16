@@ -11,4 +11,5 @@ type UserService interface {
 	FindByIdUserService(ctx context.Context, id int64) *web.UserModel
 	FindAllUserService(ctx context.Context) []*web.UserModel
 	UpdateUserService(ctx context.Context, user *web.UserCreateOrUpdate, id int64) *web.UserCreateOrUpdate
+	DeleteUserService(ctx context.Context, id int64)
 }

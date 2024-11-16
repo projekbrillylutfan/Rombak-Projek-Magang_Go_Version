@@ -117,3 +117,13 @@ func (service *UserServiceImpl)UpdateUserService(ctx context.Context, user *web.
 		Password: result.Password,
 	}
 }
+
+func (service *UserServiceImpl)DeleteUserService(ctx context.Context, id int64) {
+	result, err := service.FindByIdUserRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	service.DeleteUserRepo(ctx, result)
+}
