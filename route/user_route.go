@@ -17,4 +17,6 @@ func UserRoute (app *fiber.App, controller *impl_controller.UserController) {
 	userGroup.Put("/:id", controller.UpdateUserController)
 	// user delete
 	userGroup.Delete("/:id", controller.DeleteUserController)
+	// register user by verif
+	userGroup.Post("/register", controller.RegisterUserController)
 }
