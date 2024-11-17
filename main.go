@@ -33,6 +33,7 @@ func main() {
     app.Use(recover.New())
     app.Use(cors.New())
 
+    route.UserRouteAdmin(app, userController)
     route.UserRoute(app, userController)
 
     err := app.Listen("localhost:3000")
