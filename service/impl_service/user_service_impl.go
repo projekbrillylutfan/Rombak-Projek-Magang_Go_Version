@@ -160,3 +160,14 @@ func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *w
 
 	return token, nil
 }
+
+func (service *UserServiceImpl) VerifyEmailService(token string) error {
+	email, err := app.GetRedisKey(token)
+	if err != nil {
+		return err
+	}
+
+	return service.UpdateUserByEmailRepo(email, map[string]any{
+		"is_email_verified": true,
+	})
+}

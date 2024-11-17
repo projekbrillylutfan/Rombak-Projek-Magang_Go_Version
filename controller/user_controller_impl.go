@@ -101,3 +101,28 @@ func (controller *UserController)RegisterUserController(c *fiber.Ctx) error {
 		Data: token,
 	})
 }
+
+func (controller *UserController) VerifyEmailController(c *fiber.Ctx) error {
+	token := c.Query("token")
+	if token == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(web.GeneralResponse{
+			Code: 400,
+			Message: "token is required",
+			Data: nil,
+		})
+	}
+
+	if err := controller.UserService.VerifyEmailService(token); err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(web.GeneralResponse{
+			Code: 401,
+			Message: "Invalid token or token has expired",
+			Data: err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success verify email",
+		Data: nil,
+	})
+}

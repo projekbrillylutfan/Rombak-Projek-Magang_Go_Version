@@ -9,5 +9,7 @@ func UserRoute (app *fiber.App, controller *impl_controller.UserController) {
 	userGroup := app.Group("/api/user")
 	// user register
 	userGroup.Post("/register", controller.RegisterUserController)
+	// verify email
+	userGroup.Get("/verify-email", controller.VerifyEmailController)
 	
 }
