@@ -86,3 +86,18 @@ func (controller *UserController) DeleteUserController(c *fiber.Ctx) error {
 		Data: nil,
 	})
 }
+
+func (controller *UserController)RegisterUserController(c *fiber.Ctx) error {
+	var request *web.UserCreateOrUpdate
+	err := c.BodyParser(&request)
+	exception.PanicLogging(err)
+
+	token, err := controller.UserService.RegisterUserService(c.Context(), request)
+	exception.PanicLogging(err)
+
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success register user, Check your email for verification.",
+		Data: token,
+	})
+}

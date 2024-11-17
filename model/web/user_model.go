@@ -5,6 +5,7 @@ type UserCreateOrUpdate struct {
 	Jabatan  string `json:"jabatan" validate:"required"`
 	Username string `json:"username" validate:"required"`
 	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required"`
 }
 
 type UserModel struct {

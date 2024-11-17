@@ -29,8 +29,10 @@
    - Nama
    - Jabatan
    - username
+   - email
    - password
    - role
+   - is_email_verifed
    - created at
    - update at 
    - delete at

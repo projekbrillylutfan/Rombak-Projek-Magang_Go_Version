@@ -5,8 +5,10 @@ CREATE TABLE users (
     nama VARCHAR(100) NOT NULL,
     jabatan VARCHAR(50) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password TEXT NOT NULL,
     role user_role NOT NULL,
+    is_email_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL

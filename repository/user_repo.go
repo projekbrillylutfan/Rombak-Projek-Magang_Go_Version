@@ -12,4 +12,5 @@ type UserRepository interface {
 	FindAllUserRepo(ctx context.Context) []*domain.User
 	UpdateUserRepo(ctx context.Context, user *domain.User) *domain.User
 	DeleteUserRepo(ctx context.Context, user *domain.User)
+	RegisterUserRepo(ctx context.Context, user *domain.User) *domain.User
 }
