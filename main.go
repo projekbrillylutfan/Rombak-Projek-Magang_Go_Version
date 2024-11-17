@@ -9,6 +9,7 @@ import (
 	impl_controller "github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository/impl_repo"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/route"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service/impl_service"
 )
 
@@ -32,7 +33,7 @@ func main() {
     app.Use(recover.New())
     app.Use(cors.New())
 
-    userController.Route(app)
+    route.UserRoute(app, userController)
 
     err := app.Listen("localhost:3000")
     exception.PanicLogging(err)

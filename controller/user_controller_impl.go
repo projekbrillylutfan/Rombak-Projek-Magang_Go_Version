@@ -20,15 +20,6 @@ func NewUserController(userService *service.UserService) *UserController {
 	}
 }
 
-func (controller *UserController) Route (app *fiber.App) {
-	userGroup := app.Group("/api/user")
-	userGroup.Post("/", controller.CreateUserController)
-	userGroup.Get("/:id", controller.FindByIdUserController)
-	userGroup.Get("/", controller.FindAllUserController)
-	userGroup.Put("/:id", controller.UpdateUserController)
-	userGroup.Delete("/:id", controller.DeleteUserController)
-}
-
 func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
 	var request *web.UserCreateOrUpdate
 	err := c.BodyParser(&request)
