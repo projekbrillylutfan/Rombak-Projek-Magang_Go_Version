@@ -48,6 +48,7 @@ func (service *UserServiceImpl) CreateUserService(ctx context.Context, user *web
 		Nama:     user.Nama,
 		Jabatan:  user.Jabatan,
 		Username: user.Username,
+		Email:    user.Email,
 		Password: string(hashedPassword),
 		Role:     user.Role,
 	}
@@ -153,6 +154,7 @@ func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *w
 }
 
 func (service *UserServiceImpl) Authentication(ctx context.Context, model *web.UserLogin) string {
+	configuration.Validate(model)
 	user, err := service.UserRepository.AuthenticationRepo(ctx, model.Username)
 	if err != nil {
 		panic(exception.UnauthorizedError{

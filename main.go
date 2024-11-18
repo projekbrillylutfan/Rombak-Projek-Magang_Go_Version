@@ -26,7 +26,7 @@ func main() {
     userService := impl_service.NewUserServiceImpl(&userRepository, &config)
 
     // controller
-    userController := impl_controller.NewUserController(&userService)
+    userController := impl_controller.NewUserController(&userService, &config)
 
     // fiber 
     app := fiber.New(configuration.NewFiberConfiguration())

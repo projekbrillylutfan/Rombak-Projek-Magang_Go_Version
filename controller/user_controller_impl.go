@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
@@ -12,11 +13,13 @@ import (
 
 type UserController struct {
 	UserService service.UserService
+	configuration.Config
 }
 
-func NewUserController(userService *service.UserService) *UserController {
+func NewUserController(userService *service.UserService, config *configuration.Config) *UserController {
 	return &UserController{
 		UserService: *userService,
+		Config:      *config,
 	}
 }
 
