@@ -92,14 +92,11 @@ func (controller *UserController)RegisterUserController(c *fiber.Ctx) error {
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
 
-	token, err := controller.UserService.RegisterUserService(c.Context(), request)
-	if err != nil {
-		panic(err)
-	}
+	result := controller.UserService.RegisterUserService(c.Context(), request)
 
 	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
 		Code: 200,
 		Message: "success register user, Check your email for verification.",
-		Data: token,
+		Data: result,
 	})
 }
