@@ -60,7 +60,7 @@ func NewDatabase(config configuration.Config) *gorm.DB {
 	return db
 }
 
-// migrate db
+// migrate create -ext sql -dir db/migrations create_table_first
 // migrate -database "postgres://postgres:admin@localhost:5432/rombak_projek_magang_go_version?sslmode=disable" -path db/migrations up
 // migrate -database "postgres://postgres:admin@localhost:5432/rombak_projek_magang_go_version?sslmode=disable" -path db/migrations down
 // migrate -database "postgres://postgres:admin@localhost:5432/rombak_projek_magang_go_version?sslmode=disable" -path db/migrations version

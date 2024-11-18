@@ -8,6 +8,8 @@
    - ID Bupati (Primary Key)
    - Nama
    - Periode Jabatan
+   - Created_at
+   - Updated_at
 
 2. Agenda
    - ID Agenda (Primary Key)
