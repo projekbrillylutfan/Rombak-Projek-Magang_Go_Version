@@ -88,7 +88,7 @@ func (controller *UserController) DeleteUserController(c *fiber.Ctx) error {
 }
 
 func (controller *UserController)RegisterUserController(c *fiber.Ctx) error {
-	var request *web.UserCreateOrUpdate
+	var request *web.UserRegister
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
 
@@ -97,6 +97,21 @@ func (controller *UserController)RegisterUserController(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
 		Code: 200,
 		Message: "success register user, Check your email for verification.",
+		Data: result,
+	})
+}
+
+func (controller *UserController)LoginUserController(c *fiber.Ctx) error {
+	var request *web.UserLogin
+	err := c.BodyParser(&request)
+	exception.PanicLogging(err)
+
+
+	result := controller.UserService.Authentication(c.Context(), request)
+
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success login user",
 		Data: result,
 	})
 }

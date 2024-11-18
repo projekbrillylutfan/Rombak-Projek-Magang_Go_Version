@@ -23,7 +23,7 @@ func main() {
     userRepository := impl_repo.NewUserRepository(database)
 
     // service
-    userService := impl_service.NewUserServiceImpl(&userRepository)
+    userService := impl_service.NewUserServiceImpl(&userRepository, &config)
 
     // controller
     userController := impl_controller.NewUserController(&userService)

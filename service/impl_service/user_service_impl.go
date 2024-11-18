@@ -11,17 +11,20 @@ import (
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func NewUserServiceImpl(userRepository *repository.UserRepository) service.UserService {
+func NewUserServiceImpl(userRepository *repository.UserRepository, config *configuration.Config) service.UserService {
 	return &UserServiceImpl{
 		UserRepository: *userRepository,
+		Config:         *config,
 	}
 }
 
 type UserServiceImpl struct {
 	repository.UserRepository
+	configuration.Config
 }
 
 func ConversionError(id string) int64 {
@@ -130,7 +133,7 @@ func (service *UserServiceImpl) DeleteUserService(ctx context.Context, id int64)
 	service.DeleteUserRepo(ctx, result)
 }
 
-func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *web.UserCreateOrUpdate) *web.UserCreateOrUpdate {
+func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *web.UserRegister) *web.UserRegister {
 	// validasi user 
 	configuration.Validate(user)
 	// simpan user ke Database
@@ -147,4 +150,25 @@ func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *w
 	service.RegisterUserRepo(ctx, users)
 	user.Password = ""
 	return user
+}
+
+func (service *UserServiceImpl) Authentication(ctx context.Context, model *web.UserLogin) string {
+	user, err := service.UserRepository.AuthenticationRepo(ctx, model.Username)
+	if err != nil {
+		panic(exception.UnauthorizedError{
+			Message: err.Error(),
+		})
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(model.Password))
+
+	if err != nil {
+		panic(exception.UnauthorizedError{
+			Message: "usename or password is incorrect",
+		})
+	}
+
+	tokenJwtResult := utils.GenerateTokenJWT(user.Username, user.Role, service.Config)
+
+	return tokenJwtResult
 }

@@ -57,3 +57,12 @@ func (repo *UserRepositoryImpl) RegisterUserRepo(ctx context.Context, user *doma
 	exception.PanicLogging(err)
 	return user
 }
+
+func (repo *UserRepositoryImpl) AuthenticationRepo(ctx context.Context, username string) (*domain.User, error) {
+	var user *domain.User
+	result := repo.DB.WithContext(ctx).Where("username = ?", username).First(&user)
+	if result.RowsAffected == 0 {
+		return &domain.User{}, errors.New("user not found")
+	}
+	return user, nil
+}

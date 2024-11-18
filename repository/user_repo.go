@@ -13,4 +13,5 @@ type UserRepository interface {
 	UpdateUserRepo(ctx context.Context, user *domain.User) *domain.User
 	DeleteUserRepo(ctx context.Context, user *domain.User)
 	RegisterUserRepo(ctx context.Context, user *domain.User) *domain.User
+	AuthenticationRepo(ctx context.Context, username string) (*domain.User, error)
 }
