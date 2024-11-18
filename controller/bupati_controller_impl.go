@@ -33,3 +33,12 @@ func (controller *BupatiController) CreateBupatiController(c *fiber.Ctx) error {
 		Data: request,
 	})
 }
+
+func (controller *BupatiController) FindAllBupatiController(c *fiber.Ctx) error {
+	result := controller.BupatiService.FindAllBupatiService(c.Context())
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success get all bupati",
+		Data: result,
+	})
+}

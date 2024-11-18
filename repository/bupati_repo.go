@@ -8,4 +8,5 @@ import (
 
 type BupatiRepository interface {
 	CreateBupatiRepo(ctx context.Context, bupati *domain.Bupati) *domain.Bupati
+	FindAllBupatiRepo(ctx context.Context) []*domain.Bupati
 }

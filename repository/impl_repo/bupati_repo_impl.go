@@ -22,3 +22,9 @@ func (repo *BupatiRepositoryImpl)CreateBupatiRepo(ctx context.Context, bupati *d
 	exception.PanicLogging(err)
 	return bupati
 }
+
+func (repo *BupatiRepositoryImpl)FindAllBupatiRepo(ctx context.Context) []*domain.Bupati {
+	var bupatis []*domain.Bupati
+	repo.WithContext(ctx).Find(&bupatis)
+	return bupatis
+}
