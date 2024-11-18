@@ -4,16 +4,13 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"time"
 
-	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/app"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
-	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -131,7 +128,7 @@ func (service *UserServiceImpl) DeleteUserService(ctx context.Context, id int64)
 	service.DeleteUserRepo(ctx, result)
 }
 
-func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *web.UserCreateOrUpdate) (string, error) {
+func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *web.UserCreateOrUpdate) *web.UserCreateOrUpdate {
 	// validasi user 
 	configuration.Validate(user)
 	// simpan user ke Database
@@ -146,28 +143,6 @@ func (service *UserServiceImpl) RegisterUserService(ctx context.Context, user *w
 		Role:     "USER",
 	}
 	service.RegisterUserRepo(ctx, users)
-
-	token := utils.GenerateToken()
-
-	if err := app.SetRedisKey(token, user.Email, 24*time.Hour); err != nil {
-		return "", err
-	}
-
-	// Kirim email verifikasi
-	if err := utils.SendVerificationEmail(user.Email, token); err != nil {
-		return "", err
-	}
-
-	return token, nil
-}
-
-func (service *UserServiceImpl) VerifyEmailService(token string) error {
-	email, err := app.GetRedisKey(token)
-	if err != nil {
-		return err
-	}
-
-	return service.UpdateUserByEmailRepo(email, map[string]any{
-		"is_email_verified": true,
-	})
+	user.Password = ""
+	return user
 }

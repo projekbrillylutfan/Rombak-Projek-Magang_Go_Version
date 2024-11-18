@@ -57,7 +57,3 @@ func (repo *UserRepositoryImpl) RegisterUserRepo(ctx context.Context, user *doma
 	exception.PanicLogging(err)
 	return user
 }
-
-func (repo *UserRepositoryImpl) UpdateUserByEmailRepo(email string, updates map[string]any) error {
-	return repo.DB.Model(&domain.User{}).Where("email = ?", email).Updates(updates).Error
-}
