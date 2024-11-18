@@ -35,6 +35,8 @@ func ConversionError(id string) int64 {
 	return idInt64
 }
 
+// user role 'SUPERADMIN', 'ADMIN', 'USER'
+
 func (service *UserServiceImpl) CreateUserService(ctx context.Context, user *web.UserCreateOrUpdate) *web.UserCreateOrUpdate {
 	configuration.Validate(user)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
@@ -44,7 +46,7 @@ func (service *UserServiceImpl) CreateUserService(ctx context.Context, user *web
 		Jabatan:  user.Jabatan,
 		Username: user.Username,
 		Password: string(hashedPassword),
-		Role:     "USER",
+		Role:     user.Role,
 	}
 	service.UserRepository.CreateUserRepo(ctx, users)
 	user.Password = ""
