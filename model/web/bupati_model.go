@@ -14,3 +14,8 @@ type BupatiModel struct {
 	CreatedAt      time.Time `json:"created_at"`
 	UpdateAt       time.Time `json:"updated_at"`
 }
+
+type BupatiFindAll struct {
+	Nama string `json:"nama" validate:"required"`
+	PeriodeJabatan string `json:"periode_jabatan" validate:"required"`
+}

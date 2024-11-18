@@ -8,5 +8,5 @@ import (
 
 type BupatiService interface {
 	CreateBupatiService(ctx context.Context, bupati *web.BupatiCreateOrUpdate) *web.BupatiCreateOrUpdate
-	FindAllBupatiService(ctx context.Context) []*web.BupatiModel
+	FindAllBupatiService(ctx context.Context) []*web.BupatiFindAll
 }

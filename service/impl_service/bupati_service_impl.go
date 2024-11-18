@@ -31,16 +31,13 @@ func (service *BupatiServiceImpl) CreateBupatiService(ctx context.Context, bupat
 	return bupati
 }
 
-func (service *BupatiServiceImpl) FindAllBupatiService(ctx context.Context) (responses []*web.BupatiModel) {
+func (service *BupatiServiceImpl) FindAllBupatiService(ctx context.Context) (responses []*web.BupatiFindAll) {
 	bupatis := service.BupatiRepository.FindAllBupatiRepo(ctx)
 
 	for _, bupati := range bupatis {
-		responses = append(responses, &web.BupatiModel{
-			ID: bupati.ID,
+		responses = append(responses, &web.BupatiFindAll{
 			Nama: bupati.Nama,
 			PeriodeJabatan: bupati.PeriodeJabatan,
-			CreatedAt: bupati.CreatedAt,
-			UpdateAt: bupati.UpdateAt,
 		})
 	}
 
