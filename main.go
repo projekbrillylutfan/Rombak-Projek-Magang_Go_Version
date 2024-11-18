@@ -21,20 +21,27 @@ func main() {
 
     // repository
     userRepository := impl_repo.NewUserRepository(database)
+    bupatiRepository := impl_repo.NewBupatiRepository(database)
 
     // service
     userService := impl_service.NewUserServiceImpl(&userRepository, &config)
+    bupatiService := impl_service.NewBupatiServiceImpl(&bupatiRepository)
 
     // controller
     userController := impl_controller.NewUserController(&userService, &config)
+    bupatiController := impl_controller.NewBupatiController(&bupatiService, &config)
 
     // fiber 
     app := fiber.New(configuration.NewFiberConfiguration())
     app.Use(recover.New())
     app.Use(cors.New())
 
+    // route User dan Auth
     route.UserRouteAdmin(app, userController)
     route.UserRoute(app, userController)
+    // route Bupati
+    route.BupatiRouteAdmin(app, bupatiController)
+    route.BupatiRoute(app, bupatiController)
 
     err := app.Listen("localhost:3000")
     exception.PanicLogging(err)

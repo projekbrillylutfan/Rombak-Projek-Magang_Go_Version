@@ -8,7 +8,6 @@ import (
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
-	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service/impl_service"
 )
 
 type UserController struct {
@@ -39,7 +38,7 @@ func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
 func (controller *UserController) FindByIdUserController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	idInt64 := impl_service.ConversionError(id)
+	idInt64 := exception.ConversionErrorStrconv(id)
 
 	result := controller.UserService.FindByIdUserService(c.Context(), idInt64)
 
@@ -65,7 +64,7 @@ func (controller *UserController) UpdateUserController(c *fiber.Ctx) error {
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
 
-	idInt64 := impl_service.ConversionError(id)
+	idInt64 := exception.ConversionErrorStrconv(id)
 
 	controller.UserService.UpdateUserService(c.Context(), request, idInt64)
 	fmt.Println("isi payload di controller update ", request)
@@ -79,7 +78,7 @@ func (controller *UserController) UpdateUserController(c *fiber.Ctx) error {
 func (controller *UserController) DeleteUserController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	idInt64 := impl_service.ConversionError(id)
+	idInt64 := exception.ConversionErrorStrconv(id)
 
 	controller.UserService.DeleteUserService(c.Context(), idInt64)
 
