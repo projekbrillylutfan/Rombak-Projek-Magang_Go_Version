@@ -19,6 +19,8 @@ func main() {
     config := configuration.New()
     database := app.NewDatabase(config)
 
+    app.SeedAdminUser(database)
+
     // repository
     userRepository := impl_repo.NewUserRepository(database)
     bupatiRepository := impl_repo.NewBupatiRepository(database)
