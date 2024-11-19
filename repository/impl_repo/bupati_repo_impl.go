@@ -2,6 +2,7 @@ package impl_repo
 
 import (
 	"context"
+	"errors"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
@@ -27,4 +28,13 @@ func (repo *BupatiRepositoryImpl)FindAllBupatiRepo(ctx context.Context) []*domai
 	var bupatis []*domain.Bupati
 	repo.WithContext(ctx).Find(&bupatis)
 	return bupatis
+}
+
+func (repo *BupatiRepositoryImpl)FindByIdBupatiRepo(ctx context.Context, id int64) (*domain.Bupati, error) {
+	var bupati *domain.Bupati
+	result:= repo.DB.WithContext(ctx).Unscoped().Where("id_bupati = ?", id).First(&bupati)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("bupati not found")
+	}
+	return bupati, nil
 }

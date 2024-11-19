@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository"
@@ -46,4 +47,21 @@ func (service *BupatiServiceImpl) FindAllBupatiService(ctx context.Context) (res
 	}
 
 	return responses
+}
+
+func(service *BupatiServiceImpl) FindByIdService(ctx context.Context, id int64) *web.BupatiModel {
+	user, err := service.BupatiRepository.FindByIdBupatiRepo(ctx, id)
+	if err != nil  {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+
+	return &web.BupatiModel{
+		ID: user.ID,
+		Nama: user.Nama,
+		PeriodeJabatan: user.PeriodeJabatan,
+		CreatedAt: user.CreatedAt,
+		UpdateAt: user.UpdateAt,
+	}
 }

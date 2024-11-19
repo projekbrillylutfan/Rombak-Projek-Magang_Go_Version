@@ -42,3 +42,17 @@ func (controller *BupatiController) FindAllBupatiController(c *fiber.Ctx) error 
 		Data: result,
 	})
 }
+
+func (controller *BupatiController) FindByIdBupatiController(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	result := controller.BupatiService.FindByIdService(c.Context(), idInt64)
+
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success get bupati by id",
+		Data: result,
+	})
+}

@@ -10,4 +10,6 @@ func BupatiRoute (app *fiber.App, controller *impl_controller.BupatiController) 
 
 	// bupati find all
 	bupatGroup.Get("/", controller.FindAllBupatiController)
+	// bupati find by id
+	bupatGroup.Get("/:id", controller.FindByIdBupatiController)
 }
