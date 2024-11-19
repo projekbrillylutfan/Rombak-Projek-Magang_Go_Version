@@ -65,3 +65,26 @@ func(service *BupatiServiceImpl) FindByIdService(ctx context.Context, id int64) 
 		UpdateAt: user.UpdateAt,
 	}
 }
+
+func (service *BupatiServiceImpl)UpdateBupatiService(ctx context.Context, bupati *web.BupatiCreateOrUpdate, id int64) *web.BupatiCreateOrUpdate {
+	configuration.Validate(bupati)
+
+	_, err := service.BupatiRepository.FindByIdBupatiRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+
+	bupatis := &domain.Bupati{
+		ID: id,
+		Nama: bupati.Nama,
+		PeriodeJabatan: bupati.PeriodeJabatan,
+	}
+
+	result := service.BupatiRepository.UpdateBupatiRepo(ctx, bupatis)
+	return &web.BupatiCreateOrUpdate{
+		Nama: result.Nama,
+		PeriodeJabatan: result.PeriodeJabatan,
+	}
+}

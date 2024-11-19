@@ -38,3 +38,9 @@ func (repo *BupatiRepositoryImpl)FindByIdBupatiRepo(ctx context.Context, id int6
 	}
 	return bupati, nil
 }
+
+func (repo *BupatiRepositoryImpl)UpdateBupatiRepo(ctx context.Context, bupati *domain.Bupati) *domain.Bupati {
+	err := repo.DB.WithContext(ctx).Where("id_bupati = ?", bupati.ID).Updates(&bupati).Error
+	exception.PanicLogging(err)
+	return bupati
+}

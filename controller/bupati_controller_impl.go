@@ -56,3 +56,19 @@ func (controller *BupatiController) FindByIdBupatiController(c *fiber.Ctx) error
 		Data: result,
 	})
 }
+
+func (controller *BupatiController) UpdateBupatiController(c *fiber.Ctx) error {
+	var request *web.BupatiCreateOrUpdate
+	id := c.Params("id")
+	err := c.BodyParser(&request)
+	exception.PanicLogging(err)
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	controller.BupatiService.UpdateBupatiService(c.Context(), request, idInt64)
+	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
+		Code: 200,
+		Message: "success update bupati",
+		Data: request,
+	})
+}

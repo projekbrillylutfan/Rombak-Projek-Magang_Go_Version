@@ -10,4 +10,6 @@ func BupatiRouteAdmin (app *fiber.App, controller *impl_controller.BupatiControl
 	bupatiGroupAdmin := app.Group("/api/admin/bupati", middleware.AuthenticateJWT("ADMIN", controller.Config))
 	//bupati create
 	bupatiGroupAdmin.Post("/", controller.CreateBupatiController)
+	// bupati update
+	bupatiGroupAdmin.Put("/:id", controller.UpdateBupatiController)
 }
