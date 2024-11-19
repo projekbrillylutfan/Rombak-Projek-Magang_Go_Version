@@ -25,6 +25,8 @@
    - ID Lokasi (Primary Key)
    - Nama Lokasi
    - Alamat
+   - Created_at
+   - Updated_at
 
 4. User
    - ID User (Primary Key)
