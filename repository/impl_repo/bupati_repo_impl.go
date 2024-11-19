@@ -44,3 +44,8 @@ func (repo *BupatiRepositoryImpl)UpdateBupatiRepo(ctx context.Context, bupati *d
 	exception.PanicLogging(err)
 	return bupati
 }
+
+func (repo *BupatiRepositoryImpl)DeleteBupatiRepo(ctx context.Context, bupati *domain.Bupati) {
+	err := repo.DB.WithContext(ctx).Delete(&bupati).Error
+	exception.PanicLogging(err)
+}

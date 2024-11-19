@@ -72,3 +72,17 @@ func (controller *BupatiController) UpdateBupatiController(c *fiber.Ctx) error {
 		Data: request,
 	})
 }
+
+func (controller *BupatiController) DeleteBupatiController(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	controller.BupatiService.DeleteBupatiService(c.Context(), idInt64)
+
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "success delete bupati",
+		Data: nil,
+	})
+}

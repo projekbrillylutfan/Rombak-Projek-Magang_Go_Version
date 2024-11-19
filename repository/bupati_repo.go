@@ -11,4 +11,5 @@ type BupatiRepository interface {
 	FindAllBupatiRepo(ctx context.Context) []*domain.Bupati
 	FindByIdBupatiRepo(ctx context.Context, id int64) (*domain.Bupati, error)
 	UpdateBupatiRepo(ctx context.Context, bupati *domain.Bupati) *domain.Bupati
+	DeleteBupatiRepo(ctx context.Context, bupati *domain.Bupati)
 }

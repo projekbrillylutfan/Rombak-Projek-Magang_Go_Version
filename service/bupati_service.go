@@ -11,4 +11,5 @@ type BupatiService interface {
 	FindAllBupatiService(ctx context.Context) []*web.BupatiFindAll
 	FindByIdService(ctx context.Context, id int64)*web.BupatiModel
 	UpdateBupatiService(ctx context.Context, bupati *web.BupatiCreateOrUpdate, id int64) *web.BupatiCreateOrUpdate
+	DeleteBupatiService(ctx context.Context, id int64)
 }

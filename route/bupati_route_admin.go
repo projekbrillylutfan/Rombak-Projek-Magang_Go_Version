@@ -12,4 +12,6 @@ func BupatiRouteAdmin (app *fiber.App, controller *impl_controller.BupatiControl
 	bupatiGroupAdmin.Post("/", controller.CreateBupatiController)
 	// bupati update
 	bupatiGroupAdmin.Put("/:id", controller.UpdateBupatiController)
+	// delete bupati
+	bupatiGroupAdmin.Delete("/:id", controller.DeleteBupatiController)
 }

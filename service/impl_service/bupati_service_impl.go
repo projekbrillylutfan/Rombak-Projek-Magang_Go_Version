@@ -88,3 +88,14 @@ func (service *BupatiServiceImpl)UpdateBupatiService(ctx context.Context, bupati
 		PeriodeJabatan: result.PeriodeJabatan,
 	}
 }
+
+func (service *BupatiServiceImpl) DeleteBupatiService(ctx context.Context, id int64) {
+	// configuration.Validate(id)
+	result, err := service.FindByIdBupatiRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	service.BupatiRepository.DeleteBupatiRepo(ctx, result)
+}
