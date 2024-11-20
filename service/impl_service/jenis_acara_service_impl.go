@@ -4,13 +4,14 @@ import (
 	"context"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
 )
 
-func NewJenisAcaraServiceImpl(jenisAcaraRepository *repository.JenisAcaraRepository) service.JenisAcaraService{
+func NewJenisAcaraServiceImpl(jenisAcaraRepository *repository.JenisAcaraRepository) service.JenisAcaraService {
 	return &JenisAcaraServiceImpl{
 		JenisAcaraRepository: *jenisAcaraRepository,
 	}
@@ -20,7 +21,7 @@ type JenisAcaraServiceImpl struct {
 	repository.JenisAcaraRepository
 }
 
-func(service *JenisAcaraServiceImpl)CreateJenisAcaraService(ctx context.Context, JenisAcara *web.JenisAcaraCreateOrUpdate) *web.JenisAcaraCreateOrUpdate{
+func (service *JenisAcaraServiceImpl) CreateJenisAcaraService(ctx context.Context, JenisAcara *web.JenisAcaraCreateOrUpdate) *web.JenisAcaraCreateOrUpdate {
 	configuration.Validate(JenisAcara)
 	JenisAcaras := &domain.JenisAcara{
 		NamaJenisAcara: JenisAcara.NamaJenisAcara,
@@ -29,7 +30,7 @@ func(service *JenisAcaraServiceImpl)CreateJenisAcaraService(ctx context.Context,
 	return JenisAcara
 }
 
-func (service *JenisAcaraServiceImpl)FindAllJenisAcaraService(ctx context.Context) (responses []*web.JenisAcaraCreateOrUpdate){
+func (service *JenisAcaraServiceImpl) FindAllJenisAcaraService(ctx context.Context) (responses []*web.JenisAcaraCreateOrUpdate) {
 	jenisAcaras := service.FindAllJenisAcaraRepo(ctx)
 	for _, jenisAcara := range jenisAcaras {
 		responses = append(responses, &web.JenisAcaraCreateOrUpdate{
@@ -42,4 +43,19 @@ func (service *JenisAcaraServiceImpl)FindAllJenisAcaraService(ctx context.Contex
 	}
 
 	return responses
+}
+
+func (service *JenisAcaraServiceImpl) FindByIdJenisAcaraService(ctx context.Context, id int64) *web.JenisAcaraModel {
+	jenisAcara, err := service.FindByIdJenisAcaraRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	return &web.JenisAcaraModel{
+		ID:             jenisAcara.ID,
+		NamaJenisAcara: jenisAcara.NamaJenisAcara,
+		CreatedAt:      jenisAcara.CreatedAt.String(),
+		UpdateAt:       jenisAcara.UpdateAt.String(),
+	}
 }

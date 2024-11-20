@@ -2,6 +2,7 @@ package impl_repo
 
 import (
 	"context"
+	"errors"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
@@ -29,4 +30,13 @@ func (repo *JenisAcaraRepositoryImpl)FindAllJenisAcaraRepo(ctx context.Context) 
 	var JenisAcaras []*domain.JenisAcara
 	repo.WithContext(ctx).Find(&JenisAcaras)
 	return JenisAcaras
+}
+
+func (repo *JenisAcaraRepositoryImpl)FindByIdJenisAcaraRepo(ctx context.Context, id int64) (*domain.JenisAcara, error) {
+	var JenisAcara *domain.JenisAcara
+	result := repo.DB.WithContext(ctx).Unscoped().Where("id_jenis_acara = ?", id).First(&JenisAcara)
+	if result.RowsAffected == 0 {
+		return &domain.JenisAcara{}, errors.New("jenis Acara not found")
+	}
+	return JenisAcara, nil
 }
