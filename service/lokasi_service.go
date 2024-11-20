@@ -8,4 +8,5 @@ import (
 
 type LokasiService interface {
 	CreateLokasiService(ctx context.Context, lokasi *web.LokasiCreateOrUpdate) *web.LokasiCreateOrUpdate
+	FindAllLokasiService(ctx context.Context) []*web.LokasiCreateOrUpdate
 }

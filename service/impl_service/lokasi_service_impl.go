@@ -29,3 +29,20 @@ func (service *LokasiServiceImpl) CreateLokasiService(ctx context.Context, lokas
 	service.LokasiRepository.CreateLokasiRepo(ctx, lokasis)
 	return lokasi
 }
+
+func (service *LokasiServiceImpl) FindAllLokasiService(ctx context.Context) (responses []*web.LokasiCreateOrUpdate) {
+	lokasis := service.LokasiRepository.FindAllLokasiRepo(ctx)
+
+	for _, lokasi := range lokasis {
+		responses = append(responses, &web.LokasiCreateOrUpdate{
+			Nama:   lokasi.Nama,
+			Alamat: lokasi.Alamat,
+		})
+	}
+
+	if len(responses) == 0 {
+		return nil
+	}
+
+	return responses
+}

@@ -24,3 +24,10 @@ func (repo *LokasiRepositoryImpl) CreateLokasiRepo(ctx context.Context, lokasi *
 	exception.PanicLogging(err)
 	return lokasi
 }
+
+func (repo *LokasiRepositoryImpl) FindAllLokasiRepo(ctx context.Context) []*domain.Lokasi {
+	var lokasis []*domain.Lokasi
+	err := repo.DB.WithContext(ctx).Find(&lokasis).Error
+	exception.PanicLogging(err)
+	return lokasis
+}

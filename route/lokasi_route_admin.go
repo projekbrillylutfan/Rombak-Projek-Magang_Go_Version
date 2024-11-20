@@ -10,4 +10,6 @@ func LokasiRouteAdmin (app *fiber.App, controller *impl_controller.LokasiControl
 	lokasiGroupAdmin := app.Group("/api/admin/lokasi", middleware.AuthenticateJWT("ADMIN", controller.Config))
 	// lokasi create
 	lokasiGroupAdmin.Post("/", controller.CreateLokasiController)
+	// lokasi find all
+	lokasiGroupAdmin.Get("/", controller.FindAllLokasiController)
 }

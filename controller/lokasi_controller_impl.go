@@ -32,3 +32,12 @@ func (controller *LokasiController) CreateLokasiController(c *fiber.Ctx) error {
 		Data: request,
 	})
 }
+
+func (controller *LokasiController) FindAllLokasiController(c *fiber.Ctx) error {
+	result:= controller.LokasiService.FindAllLokasiService(c.Context())
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "success get all lokasi",
+		Data: result,
+	})
+}
