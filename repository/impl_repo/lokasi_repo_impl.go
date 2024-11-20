@@ -2,6 +2,7 @@ package impl_repo
 
 import (
 	"context"
+	"errors"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
@@ -30,4 +31,13 @@ func (repo *LokasiRepositoryImpl) FindAllLokasiRepo(ctx context.Context) []*doma
 	err := repo.DB.WithContext(ctx).Find(&lokasis).Error
 	exception.PanicLogging(err)
 	return lokasis
+}
+
+func (repo *LokasiRepositoryImpl) FindByIdLokasiRepo(ctx context.Context, id int64) (*domain.Lokasi, error) {
+	var lokasi *domain.Lokasi
+	result := repo.DB.WithContext(ctx).Unscoped().Where("id_lokasi = ?", id).First(&lokasi)
+	if result.RowsAffected == 0 {
+		return &domain.Lokasi{}, errors.New("lokasi not found")
+	}
+	return lokasi, nil
 }

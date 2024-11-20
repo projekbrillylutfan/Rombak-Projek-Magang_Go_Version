@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository"
@@ -45,4 +46,20 @@ func (service *LokasiServiceImpl) FindAllLokasiService(ctx context.Context) (res
 	}
 
 	return responses
+}
+
+func (service *LokasiServiceImpl) FindByIdLokasiService(ctx context.Context, id int64) *web.LokasiModel {
+	lokasi, err := service.LokasiRepository.FindByIdLokasiRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	return &web.LokasiModel{
+		ID:     lokasi.ID,
+		Nama:   lokasi.Nama,
+		Alamat: lokasi.Alamat,
+		CreatedAt: lokasi.CreatedAt.String(),
+		UpdateAt:  lokasi.UpdateAt.String(),
+	}
 }

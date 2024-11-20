@@ -9,4 +9,5 @@ import (
 type LokasiService interface {
 	CreateLokasiService(ctx context.Context, lokasi *web.LokasiCreateOrUpdate) *web.LokasiCreateOrUpdate
 	FindAllLokasiService(ctx context.Context) []*web.LokasiCreateOrUpdate
+	FindByIdLokasiService(ctx context.Context, id int64) *web.LokasiModel
 }
