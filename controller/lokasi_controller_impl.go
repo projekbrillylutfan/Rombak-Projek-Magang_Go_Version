@@ -53,3 +53,19 @@ func (controller *LokasiController) FindByIdLokasiController(c *fiber.Ctx) error
 		Data: result,
 	})
 }
+
+func (controller *LokasiController) UpdateLokasiController(c *fiber.Ctx) error {
+	var request *web.LokasiCreateOrUpdate
+	id := c.Params("id")
+	err := c.BodyParser(&request)
+	exception.PanicLogging(err)
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	controller.LokasiService.UpdateLokasiService(c.Context(), request, idInt64)
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "success update lokasi",
+		Data: request,
+	})
+}

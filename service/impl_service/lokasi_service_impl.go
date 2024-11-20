@@ -63,3 +63,24 @@ func (service *LokasiServiceImpl) FindByIdLokasiService(ctx context.Context, id 
 		UpdateAt:  lokasi.UpdateAt.String(),
 	}
 }
+
+func (service *LokasiServiceImpl) UpdateLokasiService(ctx context.Context, lokasi *web.LokasiCreateOrUpdate, id int64) *web.LokasiCreateOrUpdate {
+	configuration.Validate(lokasi)
+
+	_, err := service.LokasiRepository.FindByIdLokasiRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	lokasis := &domain.Lokasi{
+		ID:     id,
+		Nama:   lokasi.Nama,
+		Alamat: lokasi.Alamat,
+	}
+	service.LokasiRepository.UpdateLokasiRepo(ctx, lokasis)
+	return &web.LokasiCreateOrUpdate{
+		Nama:   lokasi.Nama,
+		Alamat: lokasi.Alamat,
+	}
+}

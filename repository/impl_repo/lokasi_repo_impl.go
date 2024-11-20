@@ -41,3 +41,9 @@ func (repo *LokasiRepositoryImpl) FindByIdLokasiRepo(ctx context.Context, id int
 	}
 	return lokasi, nil
 }
+
+func (repo *LokasiRepositoryImpl) UpdateLokasiRepo(ctx context.Context, lokasi *domain.Lokasi) *domain.Lokasi {
+	err := repo.DB.WithContext(ctx).Where("id_lokasi = ?", lokasi.ID).Updates(&lokasi).Error
+	exception.PanicLogging(err)
+	return lokasi
+}
