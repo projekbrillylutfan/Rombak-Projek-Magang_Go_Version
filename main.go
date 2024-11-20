@@ -25,16 +25,19 @@ func main() {
     userRepository := impl_repo.NewUserRepository(database)
     bupatiRepository := impl_repo.NewBupatiRepository(database)
     lokasiRepository := impl_repo.NewLokasiRepository(database)
+    jenisAcaraRepository := impl_repo.NewJenisAcaraRepository(database)
 
     // service
     userService := impl_service.NewUserServiceImpl(&userRepository, &config)
     bupatiService := impl_service.NewBupatiServiceImpl(&bupatiRepository)
     lokasiService := impl_service.NewLokasiServiceImpl(&lokasiRepository)
+    jenisAcaraService := impl_service.NewJenisAcaraServiceImpl(&jenisAcaraRepository)
 
     // controller
     userController := impl_controller.NewUserController(&userService, &config)
     bupatiController := impl_controller.NewBupatiController(&bupatiService, &config)
     lokasiController := impl_controller.NewLokasiController(&lokasiService, &config)
+    jenisAcaraController := impl_controller.NewJenisAcaraController(&jenisAcaraService, &config)
 
     // fiber 
     app := fiber.New(configuration.NewFiberConfiguration())
@@ -49,6 +52,8 @@ func main() {
     route.BupatiRoute(app, bupatiController)
     // route lokasi
     route.LokasiRouteAdmin(app, lokasiController)
+    // route jenis acara
+    route.JenisAcaraRouteAdmin(app, jenisAcaraController)
 
     err := app.Listen("localhost:3000")
     exception.PanicLogging(err)
