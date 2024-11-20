@@ -10,4 +10,5 @@ func JenisAcaraRouteAdmin (app *fiber.App, controller *impl_controller.JenisAcar
 	jenisAcaraAdmin := app.Group("/api/admin/jenis-acara", middleware.AuthenticateJWT("ADMIN", controller.Config))
 
 	jenisAcaraAdmin.Post("/", controller.CreateJenisAcaraController)
+	jenisAcaraAdmin.Get("/", controller.FindAllJenisAcara)
 }

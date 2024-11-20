@@ -24,3 +24,9 @@ func (repo *JenisAcaraRepositoryImpl)CreateJenisAcaraRepo(ctx context.Context, J
 	exception.PanicLogging(err)
 	return JenisAcara
 }
+
+func (repo *JenisAcaraRepositoryImpl)FindAllJenisAcaraRepo(ctx context.Context) []*domain.JenisAcara {
+	var JenisAcaras []*domain.JenisAcara
+	repo.WithContext(ctx).Find(&JenisAcaras)
+	return JenisAcaras
+}

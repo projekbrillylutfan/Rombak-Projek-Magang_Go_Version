@@ -28,3 +28,18 @@ func(service *JenisAcaraServiceImpl)CreateJenisAcaraService(ctx context.Context,
 	service.JenisAcaraRepository.CreateJenisAcaraRepo(ctx, JenisAcaras)
 	return JenisAcara
 }
+
+func (service *JenisAcaraServiceImpl)FindAllJenisAcaraService(ctx context.Context) (responses []*web.JenisAcaraCreateOrUpdate){
+	jenisAcaras := service.FindAllJenisAcaraRepo(ctx)
+	for _, jenisAcara := range jenisAcaras {
+		responses = append(responses, &web.JenisAcaraCreateOrUpdate{
+			NamaJenisAcara: jenisAcara.NamaJenisAcara,
+		})
+	}
+
+	if len(responses) == 0 {
+		return nil
+	}
+
+	return responses
+}

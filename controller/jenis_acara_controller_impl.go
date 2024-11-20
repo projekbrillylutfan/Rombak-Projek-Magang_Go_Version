@@ -32,3 +32,12 @@ func(controller *JenisAcaraController)CreateJenisAcaraController(c *fiber.Ctx) e
 		Data: request,
 	})
 }
+
+func(controller *JenisAcaraController)FindAllJenisAcara(c *fiber.Ctx) error {
+	result := controller.JenisAcaraService.FindAllJenisAcaraService(c.Context())
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "success get all jenis acara",
+		Data: result,
+	})
+}

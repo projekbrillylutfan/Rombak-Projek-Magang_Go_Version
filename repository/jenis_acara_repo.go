@@ -8,4 +8,5 @@ import (
 
 type JenisAcaraRepository interface {
 	CreateJenisAcaraRepo(ctx context.Context, JenisAcara *domain.JenisAcara) *domain.JenisAcara
+	FindAllJenisAcaraRepo(ctx context.Context) []*domain.JenisAcara
 }
