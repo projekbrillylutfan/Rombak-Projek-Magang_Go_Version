@@ -11,4 +11,5 @@ type LokasiRepository interface {
 	FindAllLokasiRepo(ctx context.Context) []*domain.Lokasi
 	FindByIdLokasiRepo(ctx context.Context, id int64) (*domain.Lokasi, error)
 	UpdateLokasiRepo(ctx context.Context, lokasi *domain.Lokasi) *domain.Lokasi
+	DeleteLokasiRepo(ctx context.Context, lokasi *domain.Lokasi)
 }

@@ -84,3 +84,13 @@ func (service *LokasiServiceImpl) UpdateLokasiService(ctx context.Context, lokas
 		Alamat: lokasi.Alamat,
 	}
 }
+
+func (service *LokasiServiceImpl) DeleteLokasiService(ctx context.Context, id int64) {
+	result, err := service.FindByIdLokasiRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	service.DeleteLokasiRepo(ctx, result)
+}

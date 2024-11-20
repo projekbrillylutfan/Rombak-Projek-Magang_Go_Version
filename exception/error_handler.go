@@ -36,7 +36,7 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(web.GeneralResponse{
 			Code:    400,
 			Message: "Bad Request",
-			Data:    err.Error(),
+			Data:    "error convert string to int",
 		})
 	}
 

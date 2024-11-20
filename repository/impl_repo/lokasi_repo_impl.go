@@ -47,3 +47,8 @@ func (repo *LokasiRepositoryImpl) UpdateLokasiRepo(ctx context.Context, lokasi *
 	exception.PanicLogging(err)
 	return lokasi
 }
+
+func (repo *LokasiRepositoryImpl) DeleteLokasiRepo(ctx context.Context, lokasi *domain.Lokasi) {
+	err := repo.DB.WithContext(ctx).Delete(&lokasi).Error
+	exception.PanicLogging(err)
+}

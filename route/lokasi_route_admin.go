@@ -16,4 +16,6 @@ func LokasiRouteAdmin (app *fiber.App, controller *impl_controller.LokasiControl
 	lokasiGroupAdmin.Get("/:id", controller.FindByIdLokasiController)
 	// lokasi update
 	lokasiGroupAdmin.Put("/:id", controller.UpdateLokasiController)
+	// lokasi delete
+	lokasiGroupAdmin.Delete("/:id", controller.DeleteLokasiController)
 }
