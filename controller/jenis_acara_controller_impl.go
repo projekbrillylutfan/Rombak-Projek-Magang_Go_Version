@@ -54,3 +54,32 @@ func (controller *JenisAcaraController) FindByIdJenisAcaraController(c *fiber.Ct
 		Data:    result,
 	})
 }
+
+func (controller *JenisAcaraController) UpdateJenisAcaraController(c *fiber.Ctx) error {
+	var request *web.JenisAcaraCreateOrUpdate
+	id := c.Params("id")
+	err := c.BodyParser(&request)
+	exception.PanicLogging(err)
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	controller.JenisAcaraService.UpdateJenisAcaraService(c.Context(), request, idInt64)
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code:    200,
+		Message: "success update jenis acara",
+		Data:    request,
+	})
+}
+
+func (controller *JenisAcaraController) DeleteJenisAcaraController(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	controller.JenisAcaraService.DeleteJenisAcaraService(c.Context(), idInt64)
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code:    200,
+		Message: "success delete jenis acara",
+		Data:    nil,
+	})
+}

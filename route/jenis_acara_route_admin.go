@@ -12,4 +12,6 @@ func JenisAcaraRouteAdmin (app *fiber.App, controller *impl_controller.JenisAcar
 	jenisAcaraAdmin.Post("/", controller.CreateJenisAcaraController)
 	jenisAcaraAdmin.Get("/", controller.FindAllJenisAcara)
 	jenisAcaraAdmin.Get("/:id", controller.FindByIdJenisAcaraController)
+	jenisAcaraAdmin.Put("/:id", controller.UpdateJenisAcaraController)
+	jenisAcaraAdmin.Delete("/:id", controller.DeleteJenisAcaraController)
 }

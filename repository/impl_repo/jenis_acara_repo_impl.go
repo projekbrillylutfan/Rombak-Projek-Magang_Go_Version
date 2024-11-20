@@ -40,3 +40,14 @@ func (repo *JenisAcaraRepositoryImpl)FindByIdJenisAcaraRepo(ctx context.Context,
 	}
 	return JenisAcara, nil
 }
+
+func (repo *JenisAcaraRepositoryImpl)UpdateJenisAcaraRepo(ctx context.Context, JenisAcara *domain.JenisAcara) *domain.JenisAcara {
+	err := repo.DB.WithContext(ctx).Where("id_jenis_acara = ?", JenisAcara.ID).Updates(&JenisAcara).Error
+	exception.PanicLogging(err)
+	return JenisAcara
+}
+
+func (repo *JenisAcaraRepositoryImpl)DeleteJenisAcaraRepo(ctx context.Context, JenisAcara *domain.JenisAcara) {
+	err := repo.DB.WithContext(ctx).Delete(&JenisAcara).Error
+	exception.PanicLogging(err)
+}

@@ -59,3 +59,30 @@ func (service *JenisAcaraServiceImpl) FindByIdJenisAcaraService(ctx context.Cont
 		UpdateAt:       jenisAcara.UpdateAt.String(),
 	}
 }
+
+func(service *JenisAcaraServiceImpl) UpdateJenisAcaraService(ctx context.Context, JenisAcara *web.JenisAcaraCreateOrUpdate, id int64) *web.JenisAcaraCreateOrUpdate {
+	configuration.Validate(JenisAcara)
+
+	_, err := service.FindByIdJenisAcaraRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	jenisAcara := &domain.JenisAcara{
+		ID:             id,
+		NamaJenisAcara: JenisAcara.NamaJenisAcara,
+	}
+	service.UpdateJenisAcaraRepo(ctx, jenisAcara)
+	return JenisAcara
+}
+
+func (service *JenisAcaraServiceImpl) DeleteJenisAcaraService(ctx context.Context, id int64) {
+	result, err := service.FindByIdJenisAcaraRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	service.DeleteJenisAcaraRepo(ctx, result)
+}
