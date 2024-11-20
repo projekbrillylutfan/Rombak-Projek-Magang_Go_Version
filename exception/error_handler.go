@@ -15,43 +15,43 @@ func ErrorHandler(ctx *fiber.Ctx, err error) error {
 
 		errJson := json.Unmarshal([]byte(data), &messages)
 		PanicLogging(errJson)
-		return ctx.Status(fiber.StatusBadRequest).JSON(web.GeneralResponse{
+		return ctx.Status(fiber.StatusBadRequest).JSON(&web.GeneralResponseError{
 			Code:    400,
 			Message: "Bad Request",
-			Data:    messages,
+			Error:    messages,
 		})
 	}
 
 	_, notFoundError := err.(NotFoundError)
 	if notFoundError {
-		return ctx.Status(fiber.StatusNotFound).JSON(web.GeneralResponse{
+		return ctx.Status(fiber.StatusNotFound).JSON(&web.GeneralResponseError{
 			Code:    404,
 			Message: "Not Found",
-			Data:    err.Error(),
+			Error:    err.Error(),
 		})
 	}
 
 	_, conversionError := err.(ConversionError)
 	if conversionError {
-		return ctx.Status(fiber.StatusBadRequest).JSON(web.GeneralResponse{
+		return ctx.Status(fiber.StatusBadRequest).JSON(&web.GeneralResponseError{
 			Code:    400,
 			Message: "Bad Request",
-			Data:    "error convert string to int",
+			Error:    "error convert string to int",
 		})
 	}
 
 	_, unauthorizedError := err.(UnauthorizedError)
 	if unauthorizedError {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(web.GeneralResponse{
+		return ctx.Status(fiber.StatusUnauthorized).JSON(&web.GeneralResponseError{
 			Code:    401,
 			Message: "Unauthorized",
-			Data:    err.Error(),
+			Error:    err.Error(),
 		})
 	}
 
-	return ctx.Status(fiber.StatusInternalServerError).JSON(web.GeneralResponse{
+	return ctx.Status(fiber.StatusInternalServerError).JSON(&web.GeneralResponseError{
 		Code:    500,
-		Message: "General Error",
-		Data:    err.Error(),
+		Message: "Internal Server Error",
+		Error:    err.Error(),
 	})
 }
