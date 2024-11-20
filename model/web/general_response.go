@@ -9,5 +9,5 @@ type GeneralResponse struct {
 type GeneralResponseError struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
-	Error    any    `json:"data"`
+	Error   any    `json:"error"`
 }
