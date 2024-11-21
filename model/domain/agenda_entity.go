@@ -3,12 +3,12 @@ package domain
 import "time"
 
 type Agenda struct {
-	IDAgenda       uint      `gorm:"primaryKey;autoIncrement" json:"id_agenda"`
-	IDBupati       uint      `gorm:"column:id_bupati"`
+	IDAgenda       int64      `gorm:"primaryKey;autoIncrement" json:"id_agenda"`
+	IDBupati       int64      `gorm:"column:id_bupati"`
 	NamaAgenda     string    `gorm:"column:nama_agenda"`
 	Deskripsi      string    `gorm:"column:deskripsi"`
-	IDLokasi       uint      `gorm:"column:id_lokasi"`
-	IDJenisAcara   uint      `gorm:"column:id_jenis_acara"`
+	IDLokasi       int64      `gorm:"column:id_lokasi"`
+	IDJenisAcara   int64      `gorm:"column:id_jenis_acara"`
 	TanggalMulai   time.Time `gorm:"column:tanggal_mulai"`
 	TanggalSelesai time.Time `gorm:"column:tanggal_selesai"`
 	CreatedAt      time.Time `gorm:"column:created_at;autoCreateTime"`
