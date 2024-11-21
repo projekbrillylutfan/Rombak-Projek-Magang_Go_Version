@@ -32,3 +32,12 @@ func (controller *AgendaController)CreateAgendaController(c *fiber.Ctx) error {
 		Data: request,
 	})
 }
+
+func (controller *AgendaController) FindAllAgendaController(c *fiber.Ctx) error {
+	result := controller.AgendaService.FindAllAgendaService(c.Context())
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "success get all agenda",
+		Data: result,
+	})
+}

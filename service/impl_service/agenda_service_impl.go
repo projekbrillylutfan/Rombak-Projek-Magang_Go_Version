@@ -62,3 +62,25 @@ func (service *AgendaServiceImpl) CreateAgendaService(ctx context.Context, agend
 	service.AgendaRepository.CreateAgendaRepo(ctx, agendas)
 	return agenda
 }
+
+func (service *AgendaServiceImpl) FindAllAgendaService(ctx context.Context) (responses []*web.AgendaCreateOrUpdate) {
+	agedas := service.AgendaRepository.FindAllAgendaRepo(ctx)
+
+	for _, agenda := range agedas {
+		responses = append(responses, &web.AgendaCreateOrUpdate{
+			IDBupati: agenda.IDBupati,
+			IDJenisAcara: agenda.IDJenisAcara,
+			IDLokasi: agenda.IDLokasi,
+			NamaAgenda: agenda.NamaAgenda,
+			Deskripsi: agenda.Deskripsi,
+			TanggalMulai: agenda.TanggalMulai,
+			TanggalSelesai: agenda.TanggalSelesai,
+		})
+	}
+
+	if len(responses) == 0 {
+		return nil
+	}
+
+	return responses
+}

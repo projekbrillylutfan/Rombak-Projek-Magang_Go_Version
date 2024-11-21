@@ -24,3 +24,10 @@ func (repo *AgendaRepositoryImpl)CreateAgendaRepo(ctx context.Context, agenda *d
 	exception.PanicLogging(err)
 	return agenda
 }
+
+func (repo *AgendaRepositoryImpl)FindAllAgendaRepo(ctx context.Context) []*domain.Agenda {
+	var agendas []*domain.Agenda
+	err := repo.DB.WithContext(ctx).Find(&agendas).Error
+	exception.PanicLogging(err)
+	return agendas
+}
