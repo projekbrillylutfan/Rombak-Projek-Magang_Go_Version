@@ -9,4 +9,5 @@ import (
 type AgendaRepository interface {
 	CreateAgendaRepo(ctx context.Context, agenda *domain.Agenda) *domain.Agenda
 	FindAllAgendaRepo(ctx context.Context) []*domain.Agenda
+	FindByIdAgendaRepo(ctx context.Context, id int64) (*domain.Agenda, error)
 }

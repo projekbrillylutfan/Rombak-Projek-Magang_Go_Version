@@ -11,3 +11,14 @@ type AgendaCreateOrUpdate struct {
 	TanggalMulai   time.Time `json:"tanggal_mulai" validate:"required"`
 	TanggalSelesai time.Time `json:"tanggal_selesai" validate:"required"`
 }
+
+type AgendaModel struct {
+	ID             int64           `json:"id_agenda" validate:"required"`
+	NamaAgenda     string          `json:"nama_agenda" validate:"required"`
+	Bupati         *BupatiModel     `json:"bupati" validate:"required"`
+	Deskripsi      string          `json:"deskripsi" validate:"required"`
+	Lokasi         *LokasiModel     `json:"lokasi" validate:"required"`
+	JenisAcara     *JenisAcaraModel `json:"jenis_acara" validate:"required"`
+	TanggalMulai   time.Time       `json:"tanggal_mulai" validate:"required"`
+	TanggalSelesai time.Time       `json:"tanggal_selesai" validate:"required"`
+}

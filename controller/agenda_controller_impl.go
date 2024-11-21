@@ -41,3 +41,17 @@ func (controller *AgendaController) FindAllAgendaController(c *fiber.Ctx) error 
 		Data: result,
 	})
 }
+
+func (controller *AgendaController)FindByIdAgendaController(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	result := controller.AgendaService.FindByIdAgendaService(c.Context(), idInt64)
+
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "succes get agenda by id",
+		Data: result,
+	})
+}

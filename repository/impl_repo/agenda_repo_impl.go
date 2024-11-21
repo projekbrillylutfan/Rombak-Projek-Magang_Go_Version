@@ -2,6 +2,7 @@ package impl_repo
 
 import (
 	"context"
+	"errors"
 
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/domain"
@@ -30,4 +31,13 @@ func (repo *AgendaRepositoryImpl)FindAllAgendaRepo(ctx context.Context) []*domai
 	err := repo.DB.WithContext(ctx).Find(&agendas).Error
 	exception.PanicLogging(err)
 	return agendas
+}
+
+func (repo *AgendaRepositoryImpl)FindByIdAgendaRepo(ctx context.Context, id int64) (*domain.Agenda, error) {
+	var agenda *domain.Agenda
+	result := repo.DB.WithContext(ctx).Unscoped().Preload("Bupati").Preload("Lokasi").Preload("JenisAcara").Where("id_agenda", id).First(&agenda)
+	if result.RowsAffected == 0 {
+		return &domain.Agenda{}, errors.New("agenda not found")
+	}
+	return agenda, nil
 }

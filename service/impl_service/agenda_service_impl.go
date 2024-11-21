@@ -84,3 +84,46 @@ func (service *AgendaServiceImpl) FindAllAgendaService(ctx context.Context) (res
 
 	return responses
 }
+
+func ConvertBupatiToModel(bupati *domain.Bupati) *web.BupatiModel {
+	return &web.BupatiModel{
+		ID:       bupati.ID,
+		Nama:     bupati.Nama,
+		PeriodeJabatan:  bupati.PeriodeJabatan,
+		// Tambahkan field lainnya jika diperlukan
+	}
+}
+
+func ConvertLokasiToModel(lokasi *domain.Lokasi) *web.LokasiModel {
+	return &web.LokasiModel{
+		ID: lokasi.ID,
+		Nama: lokasi.Nama,
+		Alamat: lokasi.Alamat,
+	}
+}
+
+func ConvertJenisAcaraToModel(jenisAcara *domain.JenisAcara) *web.JenisAcaraModel {
+	return &web.JenisAcaraModel{
+		ID: jenisAcara.ID,
+		NamaJenisAcara: jenisAcara.NamaJenisAcara,
+	}
+}
+
+func (service *AgendaServiceImpl)FindByIdAgendaService(ctx context.Context, id int64) *web.AgendaModel {
+	agenda, err := service.AgendaRepository.FindByIdAgendaRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	return &web.AgendaModel{
+		ID: agenda.IDAgenda,
+		NamaAgenda: agenda.NamaAgenda,
+		Bupati: ConvertBupatiToModel(&agenda.Bupati),
+		Deskripsi: agenda.Deskripsi,
+		Lokasi: ConvertLokasiToModel(&agenda.Lokasi),
+		JenisAcara: ConvertJenisAcaraToModel(&agenda.JenisAcara),
+		TanggalMulai: agenda.TanggalMulai,
+		TanggalSelesai: agenda.TanggalSelesai,
+	}
+}
