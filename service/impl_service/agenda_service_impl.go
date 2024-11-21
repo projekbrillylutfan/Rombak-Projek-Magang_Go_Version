@@ -90,6 +90,8 @@ func ConvertBupatiToModel(bupati *domain.Bupati) *web.BupatiModel {
 		ID:       bupati.ID,
 		Nama:     bupati.Nama,
 		PeriodeJabatan:  bupati.PeriodeJabatan,
+		CreatedAt: bupati.CreatedAt,
+		UpdateAt: bupati.UpdateAt,
 		// Tambahkan field lainnya jika diperlukan
 	}
 }
@@ -99,6 +101,8 @@ func ConvertLokasiToModel(lokasi *domain.Lokasi) *web.LokasiModel {
 		ID: lokasi.ID,
 		Nama: lokasi.Nama,
 		Alamat: lokasi.Alamat,
+		CreatedAt: lokasi.CreatedAt.String(),
+		UpdateAt: lokasi.UpdateAt.String(),
 	}
 }
 
@@ -106,6 +110,8 @@ func ConvertJenisAcaraToModel(jenisAcara *domain.JenisAcara) *web.JenisAcaraMode
 	return &web.JenisAcaraModel{
 		ID: jenisAcara.ID,
 		NamaJenisAcara: jenisAcara.NamaJenisAcara,
+		CreatedAt: jenisAcara.CreatedAt.String(),
+		UpdateAt: jenisAcara.UpdateAt.String(),
 	}
 }
 
