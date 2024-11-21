@@ -8,6 +8,8 @@ type Lokasi struct {
 	Alamat    string    `gorm:"column:alamat"`
 	CreatedAt time.Time `gorm:"column:created_at;autoCreateTime"`
 	UpdateAt  time.Time `gorm:"column:updated_at;autoUpdateTime"`
+
+	Agendas []Agenda `gorm:"foreignKey:IDLokasi" json:"agendas"`
 }
 
 func (l *Lokasi) TableName() string {

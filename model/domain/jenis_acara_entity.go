@@ -7,6 +7,8 @@ type JenisAcara struct {
 	NamaJenisAcara string    `gorm:"column:nama_jenis_acara"`
 	CreatedAt      time.Time `gorm:"column:created_at;autoCreateTime"`
 	UpdateAt       time.Time `gorm:"column:updated_at;autoUpdateTime"`
+
+	Agendas      []Agenda  `gorm:"foreignKey:IDJenisAcara" json:"agendas"`
 }
 
 func (ja *JenisAcara) TableName() string {

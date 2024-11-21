@@ -20,6 +20,8 @@
    - ID Jenis Acara (Foreign Key)
    - Tanggal Mulai
    - Tanggal Selesai
+   - Created_at
+   - Updated_at
 
 3. Lokasi
    - ID Lokasi (Primary Key)

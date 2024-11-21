@@ -8,6 +8,8 @@ type Bupati struct {
 	PeriodeJabatan string    `gorm:"column:periode_jabatan"`
 	CreatedAt      time.Time `gorm:"column:created_at;autoCreateTime"`
 	UpdateAt       time.Time `gorm:"column:updated_at;autoUpdateTime"`
+
+	Agendas    []Agenda  `gorm:"foreignKey:IDBupati"`
 }
 
 func (b *Bupati) TableName() string {
