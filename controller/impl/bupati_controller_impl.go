@@ -3,25 +3,30 @@ package impl_controller
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
 )
 
-type BupatiController struct {
+type BupatiControllerImpl struct {
 	BupatiService service.BupatiService
 	configuration.Config
 }
 
-func NewBupatiController(bupatiService *service.BupatiService, config *configuration.Config) *BupatiController {
-	return &BupatiController{
-		BupatiService: *bupatiService,
-		Config: *config,
+func NewBupatiControllerImpl(bupatiService service.BupatiService, config configuration.Config) controller.BupatiController {
+	return &BupatiControllerImpl{
+		BupatiService: bupatiService,
+		Config: config,
 
 	}
 }
 
-func (controller *BupatiController) CreateBupatiController(c *fiber.Ctx) error {
+func (controller *BupatiControllerImpl) GetConfig() configuration.Config{
+	return controller.Config
+}
+
+func (controller *BupatiControllerImpl) CreateBupatiController(c *fiber.Ctx) error {
 	var request *web.BupatiCreateOrUpdate
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
@@ -34,7 +39,7 @@ func (controller *BupatiController) CreateBupatiController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *BupatiController) FindAllBupatiController(c *fiber.Ctx) error {
+func (controller *BupatiControllerImpl) FindAllBupatiController(c *fiber.Ctx) error {
 	result := controller.BupatiService.FindAllBupatiService(c.Context())
 	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
 		Code: 200,
@@ -43,7 +48,7 @@ func (controller *BupatiController) FindAllBupatiController(c *fiber.Ctx) error 
 	})
 }
 
-func (controller *BupatiController) FindByIdBupatiController(c *fiber.Ctx) error {
+func (controller *BupatiControllerImpl) FindByIdBupatiController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	idInt64 := exception.ConversionErrorStrconv(id)
@@ -57,7 +62,7 @@ func (controller *BupatiController) FindByIdBupatiController(c *fiber.Ctx) error
 	})
 }
 
-func (controller *BupatiController) UpdateBupatiController(c *fiber.Ctx) error {
+func (controller *BupatiControllerImpl) UpdateBupatiController(c *fiber.Ctx) error {
 	var request *web.BupatiCreateOrUpdate
 	id := c.Params("id")
 	err := c.BodyParser(&request)
@@ -73,7 +78,7 @@ func (controller *BupatiController) UpdateBupatiController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *BupatiController) DeleteBupatiController(c *fiber.Ctx) error {
+func (controller *BupatiControllerImpl) DeleteBupatiController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	idInt64 := exception.ConversionErrorStrconv(id)

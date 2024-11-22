@@ -5,24 +5,29 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
 )
 
-type UserController struct {
-	UserService service.UserService
+type UserControllerImpl struct {
+	service.UserService
 	configuration.Config
 }
 
-func NewUserController(userService *service.UserService, config *configuration.Config) *UserController {
-	return &UserController{
-		UserService: *userService,
-		Config:      *config,
+func NewUserControllerImpl(userService service.UserService, config configuration.Config) controller.UserController {
+	return &UserControllerImpl{
+		UserService: userService,
+		Config:      config,
 	}
 }
 
-func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
+func (controller *UserControllerImpl) GetConfig() configuration.Config{
+	return controller.Config
+}
+
+func (controller *UserControllerImpl) CreateUserController(c *fiber.Ctx) error {
 	var request *web.UserCreateOrUpdate
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
@@ -35,7 +40,7 @@ func (controller *UserController) CreateUserController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *UserController) FindByIdUserController(c *fiber.Ctx) error {
+func (controller *UserControllerImpl) FindByIdUserController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	idInt64 := exception.ConversionErrorStrconv(id)
@@ -49,7 +54,7 @@ func (controller *UserController) FindByIdUserController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *UserController)FindAllUserController(c *fiber.Ctx) error {
+func (controller *UserControllerImpl)FindAllUserController(c *fiber.Ctx) error {
 	result := controller.UserService.FindAllUserService(c.Context())
 	return c.Status(fiber.StatusOK).JSON(web.GeneralResponse{
 		Code: 200,
@@ -58,7 +63,7 @@ func (controller *UserController)FindAllUserController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *UserController) UpdateUserController(c *fiber.Ctx) error {
+func (controller *UserControllerImpl) UpdateUserController(c *fiber.Ctx) error {
 	var request *web.UserCreateOrUpdate
 	id := c.Params("id")
 	err := c.BodyParser(&request)
@@ -75,7 +80,7 @@ func (controller *UserController) UpdateUserController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *UserController) DeleteUserController(c *fiber.Ctx) error {
+func (controller *UserControllerImpl) DeleteUserController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	idInt64 := exception.ConversionErrorStrconv(id)
@@ -89,7 +94,7 @@ func (controller *UserController) DeleteUserController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *UserController)RegisterUserController(c *fiber.Ctx) error {
+func (controller *UserControllerImpl)RegisterUserController(c *fiber.Ctx) error {
 	var request *web.UserRegister
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
@@ -103,7 +108,7 @@ func (controller *UserController)RegisterUserController(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *UserController)LoginUserController(c *fiber.Ctx) error {
+func (controller *UserControllerImpl)LoginUserController(c *fiber.Ctx) error {
 	var request *web.UserLogin
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)

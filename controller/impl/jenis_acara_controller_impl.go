@@ -3,24 +3,29 @@ package impl_controller
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/model/web"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service"
 )
 
-type JenisAcaraController struct {
+type JenisAcaraControllerImpl struct {
 	JenisAcaraService service.JenisAcaraService
 	configuration.Config
 }
 
-func NewJenisAcaraController(jenisAcaraService *service.JenisAcaraService, config *configuration.Config) *JenisAcaraController {
-	return &JenisAcaraController{
-		JenisAcaraService: *jenisAcaraService,
-		Config:            *config,
+func NewJenisAcaraControllerImpl(jenisAcaraService service.JenisAcaraService, config configuration.Config) controller.JenisAcaraController {
+	return &JenisAcaraControllerImpl{
+		JenisAcaraService: jenisAcaraService,
+		Config:            config,
 	}
 }
 
-func (controller *JenisAcaraController) CreateJenisAcaraController(c *fiber.Ctx) error {
+func (controller *JenisAcaraControllerImpl) GetConfig() configuration.Config{
+	return controller.Config
+}
+
+func (controller *JenisAcaraControllerImpl) CreateJenisAcaraController(c *fiber.Ctx) error {
 	var request *web.JenisAcaraCreateOrUpdate
 	err := c.BodyParser(&request)
 	exception.PanicLogging(err)
@@ -33,7 +38,7 @@ func (controller *JenisAcaraController) CreateJenisAcaraController(c *fiber.Ctx)
 	})
 }
 
-func (controller *JenisAcaraController) FindAllJenisAcara(c *fiber.Ctx) error {
+func (controller *JenisAcaraControllerImpl) FindAllJenisAcara(c *fiber.Ctx) error {
 	result := controller.JenisAcaraService.FindAllJenisAcaraService(c.Context())
 	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
 		Code:    200,
@@ -42,7 +47,7 @@ func (controller *JenisAcaraController) FindAllJenisAcara(c *fiber.Ctx) error {
 	})
 }
 
-func (controller *JenisAcaraController) FindByIdJenisAcaraController(c *fiber.Ctx) error {
+func (controller *JenisAcaraControllerImpl) FindByIdJenisAcaraController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	idInt64 := exception.ConversionErrorStrconv(id)
@@ -55,7 +60,7 @@ func (controller *JenisAcaraController) FindByIdJenisAcaraController(c *fiber.Ct
 	})
 }
 
-func (controller *JenisAcaraController) UpdateJenisAcaraController(c *fiber.Ctx) error {
+func (controller *JenisAcaraControllerImpl) UpdateJenisAcaraController(c *fiber.Ctx) error {
 	var request *web.JenisAcaraCreateOrUpdate
 	id := c.Params("id")
 	err := c.BodyParser(&request)
@@ -71,7 +76,7 @@ func (controller *JenisAcaraController) UpdateJenisAcaraController(c *fiber.Ctx)
 	})
 }
 
-func (controller *JenisAcaraController) DeleteJenisAcaraController(c *fiber.Ctx) error {
+func (controller *JenisAcaraControllerImpl) DeleteJenisAcaraController(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	idInt64 := exception.ConversionErrorStrconv(id)

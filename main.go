@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/app"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/configuration"
-	impl_controller "github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
+	impl_controller "github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller/impl"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/exception"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository/impl_repo"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/route"
@@ -34,11 +34,11 @@ func main() {
 	agendaService := impl_service.NewAgendaServiceImpl(&agendaRepository, &bupatiRepository, &jenisAcaraRepository, &lokasiRepository)
 
 	// controller
-	userController := impl_controller.NewUserController(&userService, &config)
-	bupatiController := impl_controller.NewBupatiController(&bupatiService, &config)
-	lokasiController := impl_controller.NewLokasiController(&lokasiService, &config)
-	jenisAcaraController := impl_controller.NewJenisAcaraController(&jenisAcaraService, &config)
-	agendaController := impl_controller.NewAgendaController(&agendaService, &config)
+	userController := impl_controller.NewUserControllerImpl(userService, config)
+	bupatiController := impl_controller.NewBupatiControllerImpl(bupatiService, config)
+	lokasiController := impl_controller.NewLokasiControllerImpl(lokasiService, config)
+	jenisAcaraController := impl_controller.NewJenisAcaraControllerImpl(jenisAcaraService, config)
+	agendaController := impl_controller.NewAgendaControllerImpl(agendaService, config)
 
 	// fiber
 	app := fiber.New(configuration.NewFiberConfiguration())

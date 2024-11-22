@@ -2,12 +2,12 @@ package route
 
 import (
 	"github.com/gofiber/fiber/v2"
-	impl_controller "github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
+	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/controller"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/middleware"
 )
 
-func UserRouteAdmin (app *fiber.App, controller *impl_controller.UserController) {
-	userGroupAdmin := app.Group("/api/admin/user", middleware.AuthenticateJWT("ADMIN", controller.Config))
+func UserRouteAdmin (app *fiber.App, controller controller.UserController) {
+	userGroupAdmin := app.Group("/api/admin/user", middleware.AuthenticateJWT("ADMIN", controller.GetConfig()))
 	// user create
 	userGroupAdmin.Post("/", controller.CreateUserController)
 	// user find by id
