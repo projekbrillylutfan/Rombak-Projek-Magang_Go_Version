@@ -41,3 +41,18 @@ func (repo *AgendaRepositoryImpl)FindByIdAgendaRepo(ctx context.Context, id int6
 	}
 	return agenda, nil
 }
+
+func (repo *AgendaRepositoryImpl)CheckIDAgendaRepo(ctx context.Context, id int64) error {
+	var agenda *domain.Agenda
+	result := repo.DB.WithContext(ctx).Unscoped().Where("id_agenda = ?", id).First(&agenda)
+	if result.RowsAffected == 0 {
+		return errors.New("agenda not found")
+	}
+	return nil
+}
+
+func (repo *AgendaRepositoryImpl)UpdateAgendaRepo(ctx context.Context, agenda *domain.Agenda) *domain.Agenda {
+	err := repo.DB.WithContext(ctx).Where("id_agenda = ?", agenda.IDAgenda).Updates(&agenda).Error
+	exception.PanicLogging(err)
+	return agenda
+}

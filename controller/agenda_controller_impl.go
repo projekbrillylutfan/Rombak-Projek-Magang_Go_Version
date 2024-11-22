@@ -55,3 +55,19 @@ func (controller *AgendaController)FindByIdAgendaController(c *fiber.Ctx) error 
 		Data: result,
 	})
 }
+
+func (controller *AgendaController)UpdateAgendaController(c *fiber.Ctx) error {
+	var request *web.AgendaCreateOrUpdate
+	id := c.Params("id")
+	err := c.BodyParser(&request)
+	exception.PanicLogging(err)
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	controller.AgendaService.UpdateAgendaService(c.Context(), request, idInt64)
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "success update agenda",
+		Data: request,
+	})
+}

@@ -15,4 +15,6 @@ func AgendaRouteAdmin (app *fiber.App, controller *impl_controller.AgendaControl
 	agendaRouteGroup.Get("/", controller.FindAllAgendaController)
 	// agenda find by id
 	agendaRouteGroup.Get("/:id", controller.FindByIdAgendaController)
+	// agenda update
+	agendaRouteGroup.Put("/:id", controller.UpdateAgendaController)
 }
