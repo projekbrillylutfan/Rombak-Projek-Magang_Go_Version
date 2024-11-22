@@ -37,14 +37,14 @@ func (service *AgendaServiceImpl) CreateAgendaService(ctx context.Context, agend
 		})
 	}
 	// cek jenis acara
-	_, err = service.FindByIdBupatiRepo(ctx, agenda.IDJenisAcara)
+	_, err = service.FindByIdJenisAcaraRepo(ctx, agenda.IDJenisAcara)
 	if err != nil {
 		panic(exception.NotFoundError{
 			Message: err.Error(),
 		})
 	}
 	// cek lokasi
-	_, err = service.FindByIdBupatiRepo(ctx, agenda.IDLokasi)
+	_, err = service.FindByIdLokasiRepo(ctx, agenda.IDLokasi)
 	if err != nil {
 		panic(exception.NotFoundError{
 			Message: err.Error(),
@@ -101,5 +101,61 @@ func (service *AgendaServiceImpl)FindByIdAgendaService(ctx context.Context, id i
 		JenisAcara: web.ConvertJenisAcaraToModel(&agenda.JenisAcara),
 		TanggalMulai: agenda.TanggalMulai,
 		TanggalSelesai: agenda.TanggalSelesai,
+	}
+}
+
+func (service *AgendaServiceImpl)UpdateAgendaService(ctx context.Context, agenda *web.AgendaCreateOrUpdate, id int64) *web.AgendaCreateOrUpdate {
+	configuration.Validate(agenda)
+
+	// cek id agenda
+	err := service.AgendaRepository.CheckIDAgendaRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	
+	// cek bupati 
+	_, err = service.BupatiRepository.FindByIdBupatiRepo(ctx, agenda.IDBupati)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	// cek jenis acara
+	_, err = service.FindByIdJenisAcaraRepo(ctx, agenda.IDJenisAcara)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	// cek lokasi
+	_, err = service.FindByIdLokasiRepo(ctx, agenda.IDLokasi)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+
+	agendas := &domain.Agenda{
+		IDAgenda: id,
+		IDBupati: agenda.IDBupati,
+		IDJenisAcara: agenda.IDJenisAcara,
+		IDLokasi: agenda.IDLokasi,
+		NamaAgenda: agenda.NamaAgenda,
+		Deskripsi: agenda.Deskripsi,
+		TanggalMulai: agenda.TanggalMulai,
+		TanggalSelesai: agenda.TanggalSelesai,
+	}
+
+	result := service.AgendaRepository.UpdateAgendaRepo(ctx, agendas)
+	return &web.AgendaCreateOrUpdate{
+		NamaAgenda: result.NamaAgenda,
+		IDBupati: result.IDBupati,
+		Deskripsi: result.Deskripsi,
+		IDLokasi: result.IDLokasi,
+		IDJenisAcara: result.IDJenisAcara,
+		TanggalMulai: result.TanggalMulai,
+		TanggalSelesai: result.TanggalSelesai,
 	}
 }
