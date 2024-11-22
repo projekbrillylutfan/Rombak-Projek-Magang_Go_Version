@@ -42,17 +42,22 @@ func (repo *AgendaRepositoryImpl)FindByIdAgendaRepo(ctx context.Context, id int6
 	return agenda, nil
 }
 
-func (repo *AgendaRepositoryImpl)CheckIDAgendaRepo(ctx context.Context, id int64) error {
+func (repo *AgendaRepositoryImpl)CheckIDAgendaRepo(ctx context.Context, id int64) (*domain.Agenda, error) {
 	var agenda *domain.Agenda
 	result := repo.DB.WithContext(ctx).Unscoped().Where("id_agenda = ?", id).First(&agenda)
 	if result.RowsAffected == 0 {
-		return errors.New("agenda not found")
+		return &domain.Agenda{}, errors.New("agenda not found")
 	}
-	return nil
+	return agenda, nil
 }
 
 func (repo *AgendaRepositoryImpl)UpdateAgendaRepo(ctx context.Context, agenda *domain.Agenda) *domain.Agenda {
 	err := repo.DB.WithContext(ctx).Where("id_agenda = ?", agenda.IDAgenda).Updates(&agenda).Error
 	exception.PanicLogging(err)
 	return agenda
+}
+
+func (repo *AgendaRepositoryImpl)DeleteAgendaRepo(ctx context.Context, agenda *domain.Agenda){
+	err := repo.DB.WithContext(ctx).Delete(&agenda).Error
+	exception.PanicLogging(err)
 }

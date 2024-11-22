@@ -76,3 +76,17 @@ func (controller *AgendaControllerImpl)UpdateAgendaController(c *fiber.Ctx) erro
 		Data: request,
 	})
 }
+
+func (controller *AgendaControllerImpl)DeleteAgendaController(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	idInt64 := exception.ConversionErrorStrconv(id)
+
+	controller.AgendaService.DeleteAgendaService(c.Context(), idInt64)
+
+	return c.Status(fiber.StatusOK).JSON(&web.GeneralResponse{
+		Code: 200,
+		Message: "success delete agenda",
+		Data: nil,
+	})
+}

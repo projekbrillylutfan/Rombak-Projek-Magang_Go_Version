@@ -108,7 +108,7 @@ func (service *AgendaServiceImpl)UpdateAgendaService(ctx context.Context, agenda
 	configuration.Validate(agenda)
 
 	// cek id agenda
-	err := service.AgendaRepository.CheckIDAgendaRepo(ctx, id)
+	_, err := service.AgendaRepository.CheckIDAgendaRepo(ctx, id)
 	if err != nil {
 		panic(exception.NotFoundError{
 			Message: err.Error(),
@@ -158,4 +158,14 @@ func (service *AgendaServiceImpl)UpdateAgendaService(ctx context.Context, agenda
 		TanggalMulai: result.TanggalMulai,
 		TanggalSelesai: result.TanggalSelesai,
 	}
+}
+
+func (service *AgendaServiceImpl)DeleteAgendaService(ctx context.Context, id int64) {
+	result, err := service.AgendaRepository.CheckIDAgendaRepo(ctx, id)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+	service.AgendaRepository.DeleteAgendaRepo(ctx, result)
 }

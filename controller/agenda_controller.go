@@ -11,4 +11,5 @@ type AgendaController interface {
 	FindByIdAgendaController(c *fiber.Ctx) error
 	UpdateAgendaController(c *fiber.Ctx) error
 	GetConfig() configuration.Config
+	DeleteAgendaController(c *fiber.Ctx) error
 }

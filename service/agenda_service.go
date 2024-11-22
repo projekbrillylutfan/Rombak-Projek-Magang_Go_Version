@@ -11,4 +11,5 @@ type AgendaService interface {
 	FindAllAgendaService(ctx context.Context) []*web.AgendaCreateOrUpdate
 	FindByIdAgendaService(ctx context.Context, id int64) *web.AgendaModel
 	UpdateAgendaService(ctx context.Context, agenda *web.AgendaCreateOrUpdate, id int64) *web.AgendaCreateOrUpdate
+	DeleteAgendaService(ctx context.Context, id int64)
 }
