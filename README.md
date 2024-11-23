@@ -62,4 +62,4 @@ RELASI:
 2. Register sudah 
 3. verif by email sudah
 4. management user sudah
-5. forget pass 
+5. forget pass sudah
