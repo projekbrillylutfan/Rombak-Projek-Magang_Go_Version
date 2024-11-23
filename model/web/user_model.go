@@ -31,3 +31,12 @@ type UserLogin struct {
 	Username string `json:"username" validate:"required"`
 	Password string `json:"password" validate:"required"`
 }
+
+type UserEmail struct {
+	Email string `json:"email" validate:"required"`
+}
+
+type RestPassUser struct {
+	Token       string `json:"token" validate:"required"`
+	NewPassword string `json:"new_password" validate:"required,min=8"`
+}

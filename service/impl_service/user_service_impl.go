@@ -215,3 +215,65 @@ func (service *UserServiceImpl) Authentication(ctx context.Context, model *web.U
 
 	return tokenJwtResult
 }
+
+func (service *UserServiceImpl) ForgotPasswordService(ctx context.Context, email string) error {
+	user, err := service.FindByEmail(ctx, email)
+	if err != nil {
+		panic(exception.NotFoundError{
+			Message: err.Error(),
+		})
+	}
+
+	// Generate token reset password
+	tokenBytes := make([]byte, 16)
+	if _, err := rand.Read(tokenBytes); err != nil {
+		return err
+	}
+	token := hex.EncodeToString(tokenBytes)
+
+	// Simpan token di Redis dengan waktu kadaluarsa (contoh: 15 menit)
+	tokenKey := fmt.Sprintf("reset_password:%s", token)
+	err = service.RedisService.Set(ctx, tokenKey, user.ID, time.Minute*15)
+	if err != nil {
+		return err
+	}
+
+	// Kirim email reset password
+	resetURL := fmt.Sprintf("http://localhost:3000/api/reset-password?token=%s", token)
+	message := gomail.NewMessage()
+	message.SetHeader("From", "your-email@example.com")
+	message.SetHeader("To", email)
+	message.SetHeader("Subject", "Reset Your Password")
+	message.SetBody("text/plain", fmt.Sprintf("Hi %s, reset your password using this link: %s", user.Nama, resetURL))
+	err = service.MailDialer.DialAndSend(message)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (service *UserServiceImpl)ResetPasswordService(ctx context.Context, token, newPassword string) error {
+	// Cek token di Redis
+	tokenKey := fmt.Sprintf("reset_password:%s", token)
+	userID, err := service.RedisService.Get(ctx, tokenKey)
+	if err != nil {
+		return fmt.Errorf("invalid or expired token")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	// Update password di database
+	id, _ := strconv.ParseInt(userID, 10, 64)
+	err = service.UserRepository.UpdatePassword(ctx, id, string(hashedPassword))
+	if err != nil {
+		return err
+	}
+
+	// Hapus token dari Redis setelah digunakan
+	service.RedisService.Del(ctx, tokenKey)
+	return nil
+}

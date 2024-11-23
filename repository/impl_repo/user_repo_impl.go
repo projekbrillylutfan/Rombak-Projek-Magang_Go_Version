@@ -74,3 +74,17 @@ func (repo *UserRepositoryImpl) MarkUserEmailVerified(ctx context.Context, userI
 	}
 	return nil
 }
+
+func (repo *UserRepositoryImpl)FindByEmail(ctx context.Context, email string) (*domain.User, error) {
+	var user *domain.User
+	result := repo.DB.WithContext(ctx).Where("email = ?", email).First(&user)
+	if result.RowsAffected == 0 {
+		return &domain.User{}, errors.New("email not found")
+	}
+	return user, nil
+}
+
+func (repo *UserRepositoryImpl)UpdatePassword(ctx context.Context, userID int64, hashedPassword string) error {
+	result := repo.DB.WithContext(ctx).Model(&domain.User{}).Where("id_user = ?", userID).Update("password", hashedPassword)
+	return result.Error
+}

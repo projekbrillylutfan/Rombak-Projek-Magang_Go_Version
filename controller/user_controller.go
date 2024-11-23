@@ -15,4 +15,6 @@ type UserController interface {
 	LoginUserController(c *fiber.Ctx) error
 	GetConfig() configuration.Config
 	VerifyEmail(ctx *fiber.Ctx) error
+	ForgotPassword(ctx *fiber.Ctx) error
+	ResetPassword(ctx *fiber.Ctx) error
 }

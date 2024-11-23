@@ -15,4 +15,6 @@ type UserRepository interface {
 	RegisterUserRepo(ctx context.Context, user *domain.User) *domain.User
 	AuthenticationRepo(ctx context.Context, username string) (*domain.User, error)
 	MarkUserEmailVerified(ctx context.Context, userID int64) error
+	FindByEmail(ctx context.Context, email string) (*domain.User, error)
+	UpdatePassword(ctx context.Context, userID int64, hashedPassword string) error
 }
