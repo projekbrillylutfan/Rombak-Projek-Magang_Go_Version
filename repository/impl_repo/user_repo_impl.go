@@ -66,3 +66,11 @@ func (repo *UserRepositoryImpl) AuthenticationRepo(ctx context.Context, username
 	}
 	return user, nil
 }
+
+func (repo *UserRepositoryImpl) MarkUserEmailVerified(ctx context.Context, userID int64) error {
+	result := repo.DB.WithContext(ctx).Model(&domain.User{}).Where("id_user = ?", userID).Update("is_email_verified", true)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

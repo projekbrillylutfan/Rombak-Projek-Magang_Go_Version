@@ -1,29 +1,28 @@
 package app
 
 import (
-	"context"
-	"time"
 
-	"github.com/redis/go-redis/v9"
+	"github.com/go-redis/redis/v8"
 )
 
-var RedisClient *redis.Client
+type RedisConfig struct {
+	Addr     string
+	Password string
+	DB       int
+}
 
+func NewRedisConfig() *RedisConfig {
+	return &RedisConfig{
+		Addr:     "localhost:6379", // ganti sesuai kebutuhan
+		Password: "",              // kosong jika tidak ada password
+		DB:       0,               // gunakan database redis default
+	}
+}
 
-func InitRedis() {
-	RedisClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379", // Alamat Redis server
-		Password: "",               // Password jika ada
-		DB:       0,                // Database default
+func NewRedisClient(cfg *RedisConfig) *redis.Client {
+	return redis.NewClient(&redis.Options{
+		Addr:     cfg.Addr,
+		Password: cfg.Password,
+		DB:       cfg.DB,
 	})
-}
-
-func SetRedisKey(key string, value string, expiration time.Duration) error {
-	ctx := context.Background() // Context untuk Redis v9
-	return RedisClient.Set(ctx, key, value, expiration).Err()
-}
-
-func GetRedisKey(key string) (string, error) {
-	ctx := context.Background() // Context untuk Redis v9
-	return RedisClient.Get(ctx, key).Result()
 }

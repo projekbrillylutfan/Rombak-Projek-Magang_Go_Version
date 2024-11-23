@@ -11,5 +11,7 @@ func UserRoute (app *fiber.App, controller controller.UserController) {
 	userGroup.Post("/register", controller.RegisterUserController)
 	// user login
 	userGroup.Post("/login", controller.LoginUserController)
+	// email verif
+	userGroup.Get("/verify-email", controller.VerifyEmail)
 	
 }

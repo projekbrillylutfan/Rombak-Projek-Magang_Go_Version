@@ -58,8 +58,8 @@ RELASI:
 ## Feature
 
 ### User Fitur 
-1. Auth
-2. Register
-3. verif by email
-4. management user
+1. Auth sudah
+2. Register sudah 
+3. verif by email sudah
+4. management user sudah
 5. forget pass 

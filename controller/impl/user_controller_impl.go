@@ -122,3 +122,19 @@ func (controller *UserControllerImpl)LoginUserController(c *fiber.Ctx) error {
 		Data: result,
 	})
 }
+
+func (controller *UserControllerImpl)VerifyEmail(ctx *fiber.Ctx) error {
+	token := ctx.Query("token")
+	if token == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Token is required")
+	}
+
+	err := controller.UserService.VerifyEmailService(ctx.Context(), token)
+	if err != nil {
+		return fiber.NewError(fiber.StatusUnauthorized, err.Error())
+	}
+
+	return ctx.JSON(fiber.Map{
+		"message": "Email successfully verified!",
+	})
+}

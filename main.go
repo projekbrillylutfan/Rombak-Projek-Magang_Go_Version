@@ -11,11 +11,19 @@ import (
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/repository/impl_repo"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/route"
 	"github.com/projekbrillylutfan/Rombak-Projek-Magang_Go_Version/service/impl_service"
+	"gopkg.in/gomail.v2"
 )
 
 func main() {
 	config := configuration.New()
 	database := app.NewDatabase(config)
+	// init redis 
+	redisConfig := app.NewRedisConfig()
+	redisClient := app.NewRedisClient(redisConfig)
+	redisService := impl_service.NewRedisService(redisClient)
+	// init gomail
+	// Gomail Setup
+	mailDialer := gomail.NewDialer("smtp.mailtrap.io", 587, "", "")
 
 	app.SeedAdminUser(database)
 
@@ -27,7 +35,7 @@ func main() {
 	agendaRepository := impl_repo.NewAgendaRepostiory(database)
 
 	// service
-	userService := impl_service.NewUserServiceImpl(&userRepository, &config)
+	userService := impl_service.NewUserServiceImpl(&userRepository, &config, redisService, mailDialer)
 	bupatiService := impl_service.NewBupatiServiceImpl(&bupatiRepository)
 	lokasiService := impl_service.NewLokasiServiceImpl(&lokasiRepository)
 	jenisAcaraService := impl_service.NewJenisAcaraServiceImpl(&jenisAcaraRepository)

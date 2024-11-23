@@ -14,4 +14,5 @@ type UserRepository interface {
 	DeleteUserRepo(ctx context.Context, user *domain.User)
 	RegisterUserRepo(ctx context.Context, user *domain.User) *domain.User
 	AuthenticationRepo(ctx context.Context, username string) (*domain.User, error)
+	MarkUserEmailVerified(ctx context.Context, userID int64) error
 }
