@@ -23,7 +23,9 @@ func main() {
 	redisService := impl_service.NewRedisService(redisClient)
 	// init gomail
 	// Gomail Setup
-	mailDialer := gomail.NewDialer("smtp.mailtrap.io", 587, "", "")
+	username := config.Get("MAILTRAP_USERNAME")
+	password := config.Get("MAILTRAP_PASSWORD")
+	mailDialer := gomail.NewDialer("smtp.mailtrap.io", 587, username, password)
 
 	app.SeedAdminUser(database)
 
