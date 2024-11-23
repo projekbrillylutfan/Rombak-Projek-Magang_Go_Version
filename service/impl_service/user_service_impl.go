@@ -178,7 +178,9 @@ func (service *UserServiceImpl) VerifyEmailService(ctx context.Context, token st
 	tokenKey := fmt.Sprintf("email_verification:%s", token)
 	userID, err := service.RedisService.Get(ctx, tokenKey)
 	if err != nil {
-		return fmt.Errorf("invalid or expired token")
+		panic(exception.UnauthorizedError{
+			Message: "invalid or expired token",
+		})
 	}
 
 	// Update status user menjadi terverifikasi
@@ -192,7 +194,6 @@ func (service *UserServiceImpl) VerifyEmailService(ctx context.Context, token st
 	service.RedisService.Del(ctx, tokenKey)
 	return nil
 }
-
 
 func (service *UserServiceImpl) Authentication(ctx context.Context, model *web.UserLogin) string {
 	configuration.Validate(model)
@@ -253,25 +254,23 @@ func (service *UserServiceImpl) ForgotPasswordService(ctx context.Context, email
 	return nil
 }
 
-func (service *UserServiceImpl)ResetPasswordService(ctx context.Context, token, newPassword string) error {
+func (service *UserServiceImpl) ResetPasswordService(ctx context.Context, token, newPassword string) error {
 	// Cek token di Redis
 	tokenKey := fmt.Sprintf("reset_password:%s", token)
 	userID, err := service.RedisService.Get(ctx, tokenKey)
 	if err != nil {
-		return fmt.Errorf("invalid or expired token")
+		panic(exception.UnauthorizedError{
+			Message: "invalid or expired token",
+		})
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
-	if err != nil {
-		return err
-	}
+	exception.PanicLogging(err)
 
 	// Update password di database
 	id, _ := strconv.ParseInt(userID, 10, 64)
 	err = service.UserRepository.UpdatePassword(ctx, id, string(hashedPassword))
-	if err != nil {
-		return err
-	}
+	exception.PanicLogging(err)
 
 	// Hapus token dari Redis setelah digunakan
 	service.RedisService.Del(ctx, tokenKey)
